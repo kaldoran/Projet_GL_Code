@@ -14,5 +14,7 @@ public class ServeurConstantes {
     public final static Integer MAX_UTILISATEUR = 5;
     public final static Integer MAX_ESSAI = 3;
     
+    
+    public final static String FICHIER_COMPTE = "acc";
 
 }

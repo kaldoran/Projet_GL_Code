@@ -6,13 +6,17 @@
 package serveur;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import serveur.utils.ServeurConstantes;
+import serveur.utils.toSha1;
 
 /**
  *
@@ -27,7 +31,7 @@ public class ServeurAuthentification {
     
     public ServeurAuthentification(Socket s) {
         this.s = s;
-
+        Boolean connect = false;
         String login = null, pass = null;
         int NbEssai;
         
@@ -47,11 +51,15 @@ public class ServeurAuthentification {
                 pass = in.readLine();
 
                 ++NbEssai;
-            } while(!isCorrect(login, pass)
+            } while(! (connect = isCorrect(login, pass))
                     && NbEssai != ServeurConstantes.MAX_ESSAI);
             
-            if ( NbEssai >= ServeurConstantes.MAX_ESSAI ) {
-                 out.printf("Trop de tentative de connexion");
+            if ( connect ) {
+                out.printf("connect");
+                out.flush();
+            } 
+            else if ( NbEssai >= ServeurConstantes.MAX_ESSAI ) {
+                 out.println("Trop de tentative de connexion");
                  out.flush();
             }
            
@@ -63,7 +71,22 @@ public class ServeurAuthentification {
     }    
 
     private boolean isCorrect(String login, String pass) {
-        System.out.println("Check Login - Password");
+        String s = null;
+        String hashpass = null;
+        hashpass = toSha1.toSHA1(pass.getBytes());
+        
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File(ServeurConstantes.FICHIER_COMPTE) );
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ServeurAuthentification.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        while(scanner.hasNextLine()){
+            if ( (s = scanner.nextLine().trim()).startsWith(login)) 
+                return true;
+        }
+        
         return false;
     }
 }
