@@ -10,6 +10,7 @@ package client.utils;
  * @author kaldoran
  */
 public class ClientConstantes {
-    public final static Integer PORT = 10777;   
+    public final static Integer PORT = 10777;
+    public final static String SERVEUR = "127.0.0.1";
 
 }
