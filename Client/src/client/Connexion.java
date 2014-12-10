@@ -32,8 +32,10 @@ class Connexion {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));	
             sc = new Scanner(System.in);
             
+            System.out.println(in.readLine());
+            
             while(!connect) {
-                System.out.println(in.readLine());
+                System.out.println("Verification de login");
                 System.out.println(in.readLine());
                 login = sc.nextLine();
                 out.println(login);
@@ -48,6 +50,10 @@ class Connexion {
                     System.out.println("Vous etes connecté"); 
                     connect = true;
                 }
+                else {
+                    System.out.println("Erreur de password ou login");
+                }
+                
             }
         } catch (IOException ex) {
             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
