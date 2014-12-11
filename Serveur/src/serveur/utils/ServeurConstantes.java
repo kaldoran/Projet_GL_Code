@@ -16,5 +16,6 @@ public class ServeurConstantes {
     
     
     public final static String FICHIER_COMPTE = "acc";
+    public final static String FICHIER = "/home";
 
 }

@@ -20,16 +20,12 @@ import java.util.logging.Logger;
  */
 class Connexion {
     public static String login = null, pass = null, message1 = null, message2 = null, message3 = null;
-    private PrintWriter out = null;
-    private BufferedReader in = null;
     private Scanner sc = null;
     private Boolean connect = false;
     
-    public Connexion(Socket socket) {
+    public Connexion(Socket socket, PrintWriter out, BufferedReader in) {
         try {
             String s;
-            out = new PrintWriter(socket.getOutputStream());
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));	
             sc = new Scanner(System.in);
             
             System.out.println(in.readLine());
@@ -46,14 +42,14 @@ class Connexion {
                 out.println(pass);
                 out.flush();
 
-                if(in.readLine().equals("connect")){
+                if(in.readLine().equalsIgnoreCase("connect")){
                     System.out.println("Vous etes connecté"); 
                     connect = true;
                 }
                 else {
                     System.out.println("Erreur de password ou login");
                 }
-                
+
             }
         } catch (IOException ex) {
             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
