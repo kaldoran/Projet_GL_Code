@@ -5,12 +5,9 @@
  */
 package serveur;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import serveur.utils.ServeurConstantes;

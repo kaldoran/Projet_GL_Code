@@ -24,7 +24,7 @@ public class Client {
     private static BufferedReader in = null;
     private static Scanner sc = null;
     public static Socket socket = null;
-    public static Thread t1;
+
 
     public static void main(String[] args) {
         String s = null;
@@ -45,7 +45,7 @@ public class Client {
 
 
             do { 
-                System.out.println("Commande : [ls | cd ]");
+                System.out.println("Commande : [ls | cd | get | post ]");
                 System.out.println("---------------------");
                 
                 s = sc.nextLine();
@@ -54,7 +54,14 @@ public class Client {
                 out.flush();
                 
                 while ( (s = in.readLine()) != null 
-                            && !s.equals("end") ) { System.out.println("Input : " + s); }
+                            && !s.equals("end") ) { 
+                    if ( s.equalsIgnoreCase("Ready get")) {
+                        new Telechargement(s);
+                    }
+                    else if ( s.equalsIgnoreCase("Ready post") ) {
+                        new Televersement(s);
+                    }
+                    System.out.println("Input : " + s); }
 
             }while ( !s.equalsIgnoreCase("exit") );
         } catch (IOException ex) {

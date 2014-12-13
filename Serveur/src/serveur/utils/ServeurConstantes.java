@@ -11,11 +11,14 @@ package serveur.utils;
  */
 public class ServeurConstantes {
     public final static Integer PORT = 10777;
+    public final static Integer PORTF = 10778;
     public final static Integer MAX_UTILISATEUR = 5;
     public final static Integer MAX_ESSAI = 3;
     
     
     public final static String FICHIER_COMPTE = "acc";
     public final static String FICHIER = "/home";
+    
+    public final static String FICHIER_SORTIE_DDL = "/home/kaldoran/mailbis";
 
 }

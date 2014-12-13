@@ -66,8 +66,6 @@ public class ServeurThread implements Runnable {
                     for (File file : folder.listFiles()) {
                         out.println(file.getName());
                     }
-                    out.println("end");
-                    out.flush();
                 } else {
                     String command, file;
 
@@ -89,15 +87,21 @@ public class ServeurThread implements Runnable {
                         System.out.println("file : " + loc);
                         folder = new File(loc);
 
-                        out.println("end");
+                    } else if (command.equalsIgnoreCase("get")) {
+                        out.println("Ready get");
                         out.flush();
-                    } else if (command.equalsIgnoreCase("push")) {
-                        System.out.println("push");
-                    } else if (command.equalsIgnoreCase("pull")) {
-                        System.out.println("pull");
+                        new Televersement(file, loc);
+                        
+                    } else if (command.equalsIgnoreCase("post")) {
+                        out.println("Ready post");
+                        out.flush();
+                        
+                        new Telechargement(file, loc);
                     }
                 }
-
+                
+                out.println("end");
+                out.flush();
             } while (!st.equalsIgnoreCase("exit"));
         } catch (Exception e) {
         } finally {
