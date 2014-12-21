@@ -20,7 +20,7 @@ import serveur.utils.ServeurConstantes;
  * @author kaldoran
  */
 public class ServeurThread implements Runnable {
-
+    private Compte c;
     private Socket s;  // recevra le socket liant au client
     private Thread t;  // contiendra le thread du client
     private PrintWriter out = null;
