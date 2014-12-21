@@ -14,7 +14,7 @@ import javax.swing.*;
  *
  * @author kevin
  */
-public class PopUpAuthentification extends JDialog implements ObservateurAuthentification {
+public class PopUpAuthentification extends JDialog {
     private JButton valider = new JButton("Valider");
     private JButton annuler = new JButton("Annuler");
     private JTextField chTxt_login = new JTextField(10);
@@ -53,10 +53,5 @@ public class PopUpAuthentification extends JDialog implements ObservateurAuthent
 
     private void setBaseConf() {
        
-    }
-
-    @Override
-    public void actualiser(String login, String mot_de_passe) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

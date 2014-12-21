@@ -19,11 +19,14 @@ public class FenetrePrincipale{
     
     JFrame cadre;
     JPanel panneau;
-
+    PopUpAuthentification popup_authentification;
+    
     public FenetrePrincipale() {
         cadre = new javax.swing.JFrame("Premiere fenetre");
         panneau = new JPanel();
         this.setBaseConf();
+        
+        popup_authentification = new PopUpAuthentification();
     }
     
     

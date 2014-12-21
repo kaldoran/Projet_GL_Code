@@ -11,11 +11,12 @@ import java.io.Serializable;
  *
  * @author kevin
  */
-public class Authentification implements Serializable {
+public class BeanAuthentification implements Serializable {
     private String mot_de_passe;
     private String login;
+    private boolean Valide = false;
 
-    public Authentification(String login , String mot_de_passe) {
+    public BeanAuthentification(String login , String mot_de_passe) {
         this.login = login;
         this.mot_de_passe = mot_de_passe;
     }
@@ -26,6 +27,14 @@ public class Authentification implements Serializable {
 
     public String getLogin() {
         return login;
+    }
+
+    public boolean isValide() {
+        return Valide;
+    }
+
+    public void Valider() {
+        this.Valide = true;
     }
  
 }

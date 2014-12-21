@@ -21,61 +21,54 @@ import java.util.logging.Logger;
  *
  * @author kaldoran & kevin.L
  */
-public class MainClient implements ObservateurAuthentification{
+public class MainClient {
     private static PrintWriter out = null;
     private static BufferedReader in = null;
     private static Scanner sc = null;
     public static Socket socket = null;
-    /*FenetrePrincipale fen_principale = new FenetrePrincipale();*/
-    PopUpAuthentification fen_authAuthentification = new PopUpAuthentification();
     
-
     public static void main(String[] args) {
-        String s = null;
-        try {
-            System.out.println("Demande de connexion");
-            socket = new Socket(ClientConstantes.SERVEUR, ClientConstantes.PORT);
-            System.out.println("Connexion établie avec le serveur, authentification :"); // Si le message s'affiche c'est que je suis connecté
-                        
-            out = new PrintWriter(socket.getOutputStream());
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));	
-            
-            new Connexion(socket, out, in);
-            
-            // Supposont qu'il est connecté.
-
-            sc = new Scanner(System.in);
-            
-
-
-            do { 
-                System.out.println("Commande : [ls | cd | get | post ]");
-                System.out.println("---------------------");
-                
-                s = sc.nextLine();
-
-                out.println(s);
-                out.flush();
-                
-                while ( (s = in.readLine()) != null 
-                            && !s.equals("end") ) { 
-                    if ( s.equalsIgnoreCase("Ready get")) {
-                        new Telechargement(s);
-                    }
-                    else if ( s.equalsIgnoreCase("Ready post") ) {
-                        new Televersement(s);
-                    }
-                    System.out.println("Input : " + s); }
-
-            }while ( !s.equalsIgnoreCase("exit") );
-        } catch (IOException ex) {
-            Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+//        String s = null;
+//        try {
+//            System.out.println("Demande de connexion");
+//            socket = new Socket(ClientConstantes.SERVEUR, ClientConstantes.PORT);
+//            System.out.println("Connexion établie avec le serveur, authentification :"); // Si le message s'affiche c'est que je suis connecté
+//                        
+//            out = new PrintWriter(socket.getOutputStream());
+//            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));	
+//            
+//            new Connexion(socket, out, in);
+//            
+//            // Supposont qu'il est connecté.
+//
+//            sc = new Scanner(System.in);
+//            
+//
+//
+//            do { 
+//                System.out.println("Commande : [ls | cd | get | post ]");
+//                System.out.println("---------------------");
+//                
+//                s = sc.nextLine();
+//
+//                out.println(s);
+//                out.flush();
+//                
+//                while ( (s = in.readLine()) != null 
+//                            && !s.equals("end") ) { 
+//                    if ( s.equalsIgnoreCase("Ready get")) {
+//                        new Telechargement(s);
+//                    }
+//                    else if ( s.equalsIgnoreCase("Ready post") ) {
+//                        new Televersement(s);
+//                    }
+//                    System.out.println("Input : " + s); }
+//
+//            }while ( !s.equalsIgnoreCase("exit") );
+//        } catch (IOException ex) {
+//            Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
-    
-     @Override
-    public void actualiser(String login, String mot_de_passe) {
-        System.out.println("login : " + login);
-        System.out.println("mot de passe : " + mot_de_passe);
-    }
+  
 }
