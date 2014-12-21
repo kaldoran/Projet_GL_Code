@@ -27,7 +27,7 @@ public class ServeurThread implements Runnable {
     private BufferedReader in = null;
     private final int numClient = 0; // contiendra le numéro de client géré par ce thread
 
-    public ServeurThread(Socket s, Serveur serveur) {
+    public ServeurThread(Socket s, MainServeur serveur) {
         this.s = s;
         System.out.println("New Serveur Thread");
 

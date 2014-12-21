@@ -85,7 +85,7 @@ public class GestionCompte {
         return true;
     }
     
-    public boolean isCorrect(String login, String pass) {
+    public static boolean isCorrect(String login, String pass) {
         String inputScanner = null;
         String hashpass = null;
         hashpass = toSha1.toSHA1(pass.getBytes());
