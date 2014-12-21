@@ -5,6 +5,8 @@
  */
 package client;
 
+import client.MVC.ObservateurAuthentification;
+import client.interfaceGraphique.PopUpAuthentification;
 import client.utils.ClientConstantes;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,14 +19,16 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author kaldoran
+ * @author kaldoran & kevin.L
  */
-public class Client {
+public class MainClient implements ObservateurAuthentification{
     private static PrintWriter out = null;
     private static BufferedReader in = null;
     private static Scanner sc = null;
     public static Socket socket = null;
-
+    /*FenetrePrincipale fen_principale = new FenetrePrincipale();*/
+    PopUpAuthentification fen_authAuthentification = new PopUpAuthentification();
+    
 
     public static void main(String[] args) {
         String s = null;
@@ -65,7 +69,13 @@ public class Client {
 
             }while ( !s.equalsIgnoreCase("exit") );
         } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainClient.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+     @Override
+    public void actualiser(String login, String mot_de_passe) {
+        System.out.println("login : " + login);
+        System.out.println("mot de passe : " + mot_de_passe);
     }
 }
