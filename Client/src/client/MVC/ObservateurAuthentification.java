@@ -13,4 +13,7 @@ public interface ObservateurAuthentification {
     
     void actualiser (String login, String mot_de_passe);
     
+    void fermer();
+    
+    void informerMessageErreur();
 }

@@ -29,7 +29,6 @@ public class Communication {
     
     public Communication() {
         /**Creation de la socket, printWriter et bufferedWinter */
-        initialiserCommunication();
     
     }
     

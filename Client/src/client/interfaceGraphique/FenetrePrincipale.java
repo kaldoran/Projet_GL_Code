@@ -40,9 +40,9 @@ public class FenetrePrincipale{
     
 
     private void setBaseConf() {
-        
         panneau.setPreferredSize (new Dimension(250, 150));
-        panneau.setBackground(Color.RED);
+        
+        //panneau.setBackground(Color.RED);
         
         cadre.setContentPane(panneau);
         cadre.setLocation(400, 300);

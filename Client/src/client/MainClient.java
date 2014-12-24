@@ -5,6 +5,8 @@
  */
 package client;
 
+import client.MVC.InterfaceControleurAuthentification;
+import client.MVC.InterfaceModeleAuthentification;
 import client.MVC.ObservateurAuthentification;
 import client.interfaceGraphique.PopUpAuthentification;
 import client.utils.ClientConstantes;
@@ -28,7 +30,8 @@ public class MainClient {
     public static Socket socket = null;
     
     public static void main(String[] args) {
-        Client c = new Client();
+        InterfaceModeleAuthentification modele = new Client();
+        InterfaceControleurAuthentification controleur = new Administration(modele);
 //        String s = null;
 //        try {
 //            System.out.println("Demande de connexion");

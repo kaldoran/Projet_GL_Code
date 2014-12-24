@@ -12,6 +12,7 @@ import client.MVC.ObservateurAuthentification;
 import static client.MainClient.socket;
 import client.communication.Communication;
 import client.interfaceGraphique.FenetrePrincipale;
+import client.interfaceGraphique.PopUpAuthentification;
 import client.utils.ClientConstantes;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +27,7 @@ import java.util.logging.Logger;
  *
  * @author kevin
  */
-public class Client implements ObservateurAuthentification, InterfaceModeleAuthentification{
+public class Client implements InterfaceModeleAuthentification{
     /**Attributs MVC*/
     private Object observateur;
     /**Attributs autre*/
@@ -39,25 +40,13 @@ public class Client implements ObservateurAuthentification, InterfaceModeleAuthe
         communication = new Communication();
     }
 
-    
-    
-    @Override
-    public void actualiser(String login, String mot_de_passe) {
-        System.out.println("login : " + login);
-        System.out.println("mot de passe : " + mot_de_passe);
-    }
+  
 
     @Override
-    public BeanAuthentification creerAuthentification(String login, String mot_de_passe) {
-        beanAuthentification = new BeanAuthentification(login, mot_de_passe);
-        return beanAuthentification;
-    }
-
-    @Override
-    public boolean authentifier() {
+    public void authentifier() {
+        communication.initialiserCommunication();
         authentificationValide = communication.procederAuthentification(beanAuthentification);
-        
-        return authentificationValide;
+        notifierObservateur();
     }
 
     @Override
@@ -69,8 +58,23 @@ public class Client implements ObservateurAuthentification, InterfaceModeleAuthe
     public void supprimerObservateur(ObservateurAuthentification o) {
         observateur = null;
     }
-    
-    
-    
-    
+
+    @Override
+    public void notifierObservateur() {
+        ObservateurAuthentification obsAuth = (ObservateurAuthentification)observateur;
+        if(authentificationValide) {
+            obsAuth.fermer();
+        } else {
+            obsAuth.informerMessageErreur();
+            obsAuth.actualiser("Erreur", "Erreur");
+        }
+        
+    }
+
+    @Override
+    public void creerAuthentification(String login, String mot_de_passe) {
+        beanAuthentification = new BeanAuthentification(login, mot_de_passe);
+    }
+
+   
 }

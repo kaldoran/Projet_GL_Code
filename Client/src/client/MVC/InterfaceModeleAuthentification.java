@@ -13,12 +13,14 @@ import beans.BeanAuthentification;
  */
 public interface InterfaceModeleAuthentification {
     
-    BeanAuthentification creerAuthentification (String login,String mot_de_passe);
+    void creerAuthentification (String login, String mot_de_passe);
     
-    boolean authentifier ();
+    void authentifier ();
     
     void enregistrerObservateur (ObservateurAuthentification o);
     
     void supprimerObservateur (ObservateurAuthentification o);
+    
+    void notifierObservateur ();
     
 }
