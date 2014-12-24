@@ -9,8 +9,8 @@ package client.MVC;
  *
  * @author kevin
  */
-public interface ObservateurAuthentification {
+public interface InterfaceControleurAuthentification {
     
-    void actualiser (String login, String mot_de_passe);
+    void setBeanAuthentification(String login, String mot_de_passe);
     
 }

@@ -5,6 +5,8 @@
  */
 package client;
 
+import beans.BeanAuthentification;
+import client.MVC.InterfaceControleurAuthentification;
 import client.MVC.InterfaceModeleAuthentification;
 import client.MVC.ObservateurAuthentification;
 import static client.MainClient.socket;
@@ -24,36 +26,48 @@ import java.util.logging.Logger;
  *
  * @author kevin
  */
-public class Client implements ObservateurAuthentification{
-    
-    /**Attributs MVC */
-    private InterfaceModeleAuthentification modele_authentification;
-    private InterfaceControleur controleur;
-    
+public class Client implements ObservateurAuthentification, InterfaceModeleAuthentification{
+    /**Attributs MVC*/
+    private Object observateur;
     /**Attributs autre*/
     private Communication communication;
+    private BeanAuthentification beanAuthentification;
     
-    /**Attributs interface graphique client */
-    private FenetrePrincipale fen_principale;
-
-    public Client( InterfaceModeleAuthentification modele, InterfaceControleur controleur) {
-        /**Code intialisation MVC */
-        modele_authentification = modele;
-        this.controleur = controleur;
-        modele_authentification.enregistrerObservateur(this);
-        
-        
-      
-    }
+    private boolean authentificationValide = false;
     
-    private void creerInterfaceGraphique() {
-        fen_principale = new FenetrePrincipale();
+    public Client(){
+        communication = new Communication();
     }
 
+    
+    
     @Override
     public void actualiser(String login, String mot_de_passe) {
         System.out.println("login : " + login);
         System.out.println("mot de passe : " + mot_de_passe);
+    }
+
+    @Override
+    public BeanAuthentification creerAuthentification(String login, String mot_de_passe) {
+        beanAuthentification = new BeanAuthentification(login, mot_de_passe);
+        return beanAuthentification;
+    }
+
+    @Override
+    public boolean authentifier() {
+        authentificationValide = communication.procederAuthentification(beanAuthentification);
+        
+        return authentificationValide;
+    }
+
+    @Override
+    public void enregistrerObservateur(ObservateurAuthentification o) {
+        observateur = o;
+    }
+
+    @Override
+    public void supprimerObservateur(ObservateurAuthentification o) {
+        observateur = null;
     }
     
     

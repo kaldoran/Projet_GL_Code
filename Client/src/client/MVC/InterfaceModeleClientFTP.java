@@ -9,8 +9,6 @@ package client.MVC;
  *
  * @author kevin
  */
-public interface ObservateurAuthentification {
-    
-    void actualiser (String login, String mot_de_passe);
+public interface InterfaceModeleClientFTP {
     
 }

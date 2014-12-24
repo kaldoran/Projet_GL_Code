@@ -28,7 +28,7 @@ public class MainClient {
     public static Socket socket = null;
     
     public static void main(String[] args) {
-        
+        Client c = new Client();
 //        String s = null;
 //        try {
 //            System.out.println("Demande de connexion");

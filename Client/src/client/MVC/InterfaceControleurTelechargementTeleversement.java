@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client;
+package client.MVC;
 
 /**
  *
  * @author kevin
  */
-public interface InterfaceControleur {
+public interface InterfaceControleurTelechargementTeleversement {
     
 }

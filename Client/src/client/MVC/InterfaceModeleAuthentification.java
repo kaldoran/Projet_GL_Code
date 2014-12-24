@@ -5,15 +5,17 @@
  */
 package client.MVC;
 
+import beans.BeanAuthentification;
+
 /**
  *
  * @author kevin
  */
 public interface InterfaceModeleAuthentification {
     
-    void creerAuthentification (String login,String mot_de_passe);
+    BeanAuthentification creerAuthentification (String login,String mot_de_passe);
     
-    void authentifier ();
+    boolean authentifier ();
     
     void enregistrerObservateur (ObservateurAuthentification o);
     
