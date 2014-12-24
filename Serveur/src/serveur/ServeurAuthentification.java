@@ -5,6 +5,7 @@
  */
 package serveur;
 
+import beans.BeanAuthentification;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +19,35 @@ import serveur.utils.ServeurConstantes;
  * @author kaldoran
  */
 public class ServeurAuthentification {
-    private Socket s;
+    private int nb_utilisateurs_connectes = 0;
+
+    public ServeurAuthentification() {
+        
+    }
+
+    public int getNb_utilisateurs_connectes() {
+        return nb_utilisateurs_connectes;
+    }
+
+    public boolean ValiderAuthentification(BeanAuthentification beanAuth) {
+        boolean estValide = false;
+
+        estValide = GestionCompte.isCorrect(beanAuth.getLogin(), beanAuth.getMot_de_passe());
+        
+        if(estValide) {
+            beanAuth.Valider();
+            nb_utilisateurs_connectes++;
+        }
+        
+        return estValide;
+    }
+    
+    
+    
+
+}
+
+/*private Socket s;
 
     private Object socket;
     
@@ -62,7 +91,4 @@ public class ServeurAuthentification {
         } catch (IOException ex) {
             Logger.getLogger(ServeurAuthentification.class.getName()).log(Level.SEVERE, null, ex);
         }  
-    }    
-
-}
-
+    } */

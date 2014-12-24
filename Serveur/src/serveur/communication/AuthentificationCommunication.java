@@ -25,10 +25,10 @@ class AuthentificationCommunication {
     private ObjectInputStream ois = null;
     private Socket socket;
     
-    public AuthentificationCommunication(ServerSocket server_socket_auth) {
+    public AuthentificationCommunication(Socket s) {
         
         try {
-            socket = server_socket_auth.accept();
+            socket = s;
             oos = new ObjectOutputStream(socket.getOutputStream());
             oos.flush();
             ois = new ObjectInputStream(socket.getInputStream());
@@ -55,22 +55,17 @@ class AuthentificationCommunication {
 
         estValide = GestionCompte.isCorrect(beanAuth.getLogin(), beanAuth.getMot_de_passe());
         
-        if(estValide) {
-            try {
+        try {
+            if(estValide) {
                 beanAuth.Valider();
                 oos.writeObject(beanAuth);
-            } catch (IOException ex) {
-                Logger.getLogger(AuthentificationCommunication.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        
-        try {
+            
             oos.close();
             ois.close();
-            socket.close();
         } catch (IOException ex) {
-            Logger.getLogger(AuthentificationCommunication.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                    Logger.getLogger(AuthentificationCommunication.class.getName()).log(Level.SEVERE, null, ex);
+                }
         return estValide;
     }
     

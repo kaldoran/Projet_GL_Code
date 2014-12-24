@@ -10,39 +10,38 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import serveur.communication.Communication;
 import serveur.utils.ServeurConstantes;
 
 /**
  *
- * @author kaldoran
+ * @author kevin
  */
-public class MainServeur {
-    private int nbClients = 0; // nombre total de clients connectés
+public class Serveur {
+    /**Attributs autre */
+    private ServerSocket ss;
+    private InetAddress LocaleAdresse;
+    
+    /** Attributs Service */
+    private ServeurAuthentification serveurAuthentification;
+    /**Attributs Interface Graphique */
+    
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
+    public Serveur() {
         
-        Serveur serveur = new Serveur();
-        
-        /*MainServeur serv = new MainServeur();
-        ServerSocket ss;
-        InetAddress LocaleAdresse;
-       
+        serveurAuthentification =  new ServeurAuthentification();
         try {
             ss = new ServerSocket(ServeurConstantes.PORT, ServeurConstantes.MAX_UTILISATEUR); // ouverture d'un socket serveur sur port
             LocaleAdresse = InetAddress.getLocalHost();
             printInfo(LocaleAdresse);
             while(true) {
-                new ServeurThread(ss.accept(), serv); // un client se connecte, un nouveau thread client est lancé
+                new ServeurThread(ss.accept(), serveurAuthentification); // un client se connecte, un nouveau thread client est lancé
             }
         } catch (IOException ex) {
             Logger.getLogger(MainServeur.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
-
+    
     private static void printInfo(InetAddress Adresse) {
         System.out.println("--------");
         System.out.println("Serveur - Team KNK");
@@ -51,9 +50,5 @@ public class MainServeur {
         System.out.println("Demarre sur le port : " + ServeurConstantes.PORT);
         System.out.println("L'adresse du serveur est : " + Adresse);
         System.out.println("--------");
-    }
-    
-    synchronized public int getNbClients() {
-        return nbClients; // retourne le nombre de clients connectés*/
     }
 }

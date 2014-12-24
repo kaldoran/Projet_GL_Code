@@ -5,14 +5,18 @@
  */
 package serveur;
 
+import beans.BeanAuthentification;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import serveur.communication.Communication;
 import serveur.utils.ServeurConstantes;
 
 /**
@@ -20,20 +24,30 @@ import serveur.utils.ServeurConstantes;
  * @author kaldoran
  */
 public class ServeurThread implements Runnable {
+    
     private Compte c;
     private Socket s;  // recevra le socket liant au client
     private Thread t;  // contiendra le thread du client
-    private PrintWriter out = null;
-    private BufferedReader in = null;
+    private ObjectOutputStream out = null;
+    private ObjectInputStream in = null;
+    ServeurAuthentification serveur_authentification = null;
     private final int numClient = 0; // contiendra le numéro de client géré par ce thread
+    
+    private final int DECONNEXION = 10;
+    private final int AUTHENTIFICATION = 0;
+    private final int ENVOYER_ARBORESCENCE = 1;
+    private final int RECEVOIR_COMMANDE = 2;
+    
 
-    public ServeurThread(Socket s, MainServeur serveur) {
+    public ServeurThread(Socket s, ServeurAuthentification serveurAuth) {
         this.s = s;
+        this.serveur_authentification = serveurAuth;
         System.out.println("New Serveur Thread");
+        
 
         try {
-            out = new PrintWriter(s.getOutputStream());
-            in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            out = new ObjectOutputStream(s.getOutputStream());
+            in = new ObjectInputStream(s.getInputStream());
         } catch (IOException ex) {
             Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -44,13 +58,82 @@ public class ServeurThread implements Runnable {
 
     @Override
     public void run() {
-
+        BeanAuthentification bean_authentification = null;
+        Object O = null;
         String st;
         String loc = ServeurConstantes.FICHIER;
         File folder = new File(loc);
+        int etat = AUTHENTIFICATION;
+        int sortie = 0;
 
-        System.out.println("Un nouveau client s'est connecte, no " + numClient);
-
+        /** Procedure d'authentification :               */
+        // tache déléguer à serveur d'authentification. 
+        // -    si l'authentification est valide, alors on renvoie le bean authentification 
+        //      avec la reponse positive à utilsateur, et autorise le traitement de
+        //      telechargement et televersement
+        //
+        // -    si l'authentification est invalide, alors on renvoie le bean authentification
+        //      avec la reponse negative à l'utilisateur et attent a nouveau un bean authentification
+        // 
+        while ( sortie != DECONNEXION ) {
+            
+            try {
+                switch (etat) {
+                    
+                    case AUTHENTIFICATION :
+                        while(O == null && !(O instanceof BeanAuthentification)) {
+                            try {
+                                O = in.readObject();
+                                
+                            } catch (IOException ex) {
+                                Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (ClassNotFoundException ex) {
+                                Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        bean_authentification = (BeanAuthentification) O;
+                        
+                        if( serveur_authentification.ValiderAuthentification(bean_authentification) ) {
+                            try {
+                                out.writeObject(bean_authentification);
+                            } catch (IOException ex) {
+                                Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            System.out.println("Un nouveau client s'est connecte, no " + numClient);
+                            etat = 1;
+                            break;
+                            
+                        } else {
+                            
+                            try {
+                                out.writeObject(bean_authentification);
+                            } catch (IOException ex) {
+                                Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    
+                    case ENVOYER_ARBORESCENCE :
+                        sortie = DECONNEXION;
+                        break;
+                        
+                    case RECEVOIR_COMMANDE :
+                        sortie = DECONNEXION;
+                        break;
+                        
+                }
+                
+                out.close();
+                in.close();
+                s.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        
+        
+        
+        /*
         try {
             out.println("Bonjour cher User ! ");
             out.flush();
@@ -111,6 +194,6 @@ public class ServeurThread implements Runnable {
                 s.close(); // fermeture du socket si il ne l'a pas déjà été (à cause de l'exception levée plus haut)
             } catch (IOException e) {
             }
-        }
+        }*/
     }
 }
