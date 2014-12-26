@@ -15,5 +15,5 @@ public interface ObservateurAuthentification {
     
     void fermer();
     
-    void informerMessageErreur();
+    void informerMessageErreur(int i);
 }

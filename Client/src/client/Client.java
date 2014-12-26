@@ -65,7 +65,7 @@ public class Client implements InterfaceModeleAuthentification{
         if(authentificationValide) {
             obsAuth.fermer();
         } else {
-            obsAuth.informerMessageErreur();
+            obsAuth.informerMessageErreur(0);
             obsAuth.actualiser("Erreur", "Erreur");
         }
         

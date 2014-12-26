@@ -5,6 +5,8 @@
  */
 package client.interfaceGraphique;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 
@@ -17,9 +19,11 @@ public class PanneauArborescence extends JPanel {
         
     public PanneauArborescence() {
         super();
+        setLayout(new BorderLayout());
         String[] rep = {"rep1","rep2", "rep3"};
         arborescence_fichiers = new JTree(rep);
-        this.add(arborescence_fichiers);
+        arborescence_fichiers.setPreferredSize(new Dimension(400, 600));
+        this.add(arborescence_fichiers,BorderLayout.CENTER);
     }
     
     
