@@ -1,9 +1,9 @@
-package client;
+package client.MVC.controleur.impl;
 
 import beans.BeanAuthentification;
-import client.MVC.InterfaceControleurAuthentification;
-import client.MVC.InterfaceModeleAuthentification;
-import client.interfaceGraphique.FenetrePrincipale;
+import client.MVC.controleur.InterfaceControleurAuthentification;
+import client.MVC.model.InterfaceModeleAuthentification;
+import client.MVC.vue.impl.FenetrePrincipale;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

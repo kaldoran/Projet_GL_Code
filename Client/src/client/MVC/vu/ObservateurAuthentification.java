@@ -3,12 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client.MVC;
+package client.MVC.vu;
 
 /**
  *
  * @author kevin
  */
-public interface InterfaceControleurTelechargementTeleversement {
+public interface ObservateurAuthentification {
     
+    void actualiser (String login, String mot_de_passe);
+    
+    void fermer();
+    
+    void informerMessageErreur(int i);
 }

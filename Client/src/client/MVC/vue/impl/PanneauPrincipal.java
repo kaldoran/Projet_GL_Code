@@ -1,4 +1,4 @@
-package client.interfaceGraphique;
+package client.MVC.vue.impl;
 
 import java.awt.BorderLayout;
 import java.nio.file.Files;

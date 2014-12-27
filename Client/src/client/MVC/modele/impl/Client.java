@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client;
+package client.MVC.modele.impl;
 
 import beans.BeanAuthentification;
-import client.MVC.InterfaceControleurAuthentification;
-import client.MVC.InterfaceModeleAuthentification;
-import client.MVC.ObservateurAuthentification;
-import static client.MainClient.socket;
+import client.MVC.controleur.InterfaceControleurAuthentification;
+import client.MVC.model.InterfaceModeleAuthentification;
+import client.MVC.vu.ObservateurAuthentification;
+import static client.MVC.modele.impl.MainClient.socket;
 import client.communication.Communication;
-import client.interfaceGraphique.FenetrePrincipale;
-import client.interfaceGraphique.PopUpAuthentification;
+import client.MVC.vue.impl.FenetrePrincipale;
+import client.MVC.vue.impl.PopUpAuthentification;
 import client.utils.ClientConstantes;
 import java.io.BufferedReader;
 import java.io.IOException;

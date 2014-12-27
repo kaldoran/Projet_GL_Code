@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client;
+package client.MVC.modele.impl;
 
 import client.utils.ClientConstantes;
 import java.io.BufferedOutputStream;

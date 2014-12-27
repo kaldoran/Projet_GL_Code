@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client.MVC;
+package client.MVC.controleur;
 
 /**
  *
  * @author kevin
  */
-public interface InterfaceModeleClientFTP {
+public interface InterfaceControleurAuthentification {
+    
+    void setBeanAuthentification(String login, String mot_de_passe);
     
 }

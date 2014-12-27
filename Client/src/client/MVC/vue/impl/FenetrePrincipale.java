@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client.interfaceGraphique;
+package client.MVC.vue.impl;
 
-import client.MVC.InterfaceControleurAuthentification;
-import client.MVC.InterfaceModeleAuthentification;
+import client.MVC.controleur.InterfaceControleurAuthentification;
+import client.MVC.model.InterfaceModeleAuthentification;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
