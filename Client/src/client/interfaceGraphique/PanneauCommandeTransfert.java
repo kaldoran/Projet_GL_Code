@@ -5,9 +5,15 @@
  */
 package client.interfaceGraphique;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -21,15 +27,33 @@ public class PanneauCommandeTransfert extends JPanel implements ActionListener{
 
     public PanneauCommandeTransfert() {
         super();
-        this.setLayout(new FlowLayout());
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
-        btn_telecharger = new JButton("Telecharger");
+        Box boite_panneau = Box.createVerticalBox();
+        boite_panneau.add(new JPanel());
+        
+        JPanel panneau_bouton = new JPanel();
+        
+        Dimension dim_btn = new Dimension(150, 30);
+        
+        Box boite = Box.createVerticalBox();
+        btn_telecharger = new JButton(new ImageIcon("Packages ressources/arrow_left.png"));
+        btn_telecharger.setBackground(Color.WHITE);
         btn_telecharger.addActionListener(this);
-        add(btn_telecharger);
+        boite.add(btn_telecharger);
         
-        btn_televerser = new JButton("Televerser");
+        btn_televerser = new JButton(new ImageIcon("Packages ressources/arrow_right.png"));
+        btn_televerser.setBackground(Color.WHITE);
         btn_televerser.addActionListener(this);
-        add(btn_televerser);
+        boite.add(btn_televerser);
+        
+        panneau_bouton.add(boite,BorderLayout.CENTER);
+        
+        
+        boite_panneau.add(panneau_bouton);
+        boite_panneau.add(new JPanel());
+        
+        this.add(boite_panneau);
     }
 
     @Override

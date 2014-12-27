@@ -7,6 +7,7 @@ package client.interfaceGraphique;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 
@@ -16,10 +17,27 @@ import javax.swing.JTree;
  */
 public class PanneauArborescence extends JPanel {
     private JTree arborescence_fichiers;
+    private JLabel lbl_titre;
+    private JLabel lbl_adresse;
+    private JPanel panneau_label_tit;
+    private JPanel panneau_label_adr;
         
     public PanneauArborescence() {
         super();
         setLayout(new BorderLayout());
+        
+        panneau_label_tit = new JPanel();
+        this.add(panneau_label_tit,BorderLayout.NORTH);
+        
+        lbl_titre = new JLabel();
+        panneau_label_tit.add(lbl_titre);
+        
+        panneau_label_adr = new JPanel();
+        this.add(panneau_label_adr,BorderLayout.SOUTH);
+        
+        lbl_adresse = new JLabel();
+        panneau_label_adr.add(lbl_adresse);
+        
         String[] rep = {"rep1","rep2", "rep3"};
         arborescence_fichiers = new JTree(rep);
         arborescence_fichiers.setPreferredSize(new Dimension(400, 600));
@@ -27,4 +45,11 @@ public class PanneauArborescence extends JPanel {
     }
     
     
+    public void setTitre(String titre) {
+        lbl_titre.setText(titre);
+    }
+    
+    public void setAdresse(String adresse) {
+        lbl_adresse.setText(adresse);
+    }
 }

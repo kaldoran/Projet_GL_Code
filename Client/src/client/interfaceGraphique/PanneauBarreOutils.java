@@ -11,9 +11,11 @@ import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 /**
@@ -34,6 +36,7 @@ public class PanneauBarreOutils extends JPanel implements MouseListener{
         super();
         this.setPreferredSize(new Dimension(1000, 44));
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
+        this.setBorder(BorderFactory.createLineBorder(Color.lightGray));
         
         btn_configuration = new JButton(new ImageIcon("Packages ressources/configure.png"));
         btn_configuration.setBackground(Color.WHITE);

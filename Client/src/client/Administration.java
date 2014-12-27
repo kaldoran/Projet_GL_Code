@@ -30,7 +30,7 @@ public class Administration implements InterfaceControleurAuthentification{
         
     @Override
     public void setBeanAuthentification(String login, String mot_de_passe) {
-        /*if(login.length() == 0 || mot_de_passe.length() == 0) {
+        if(login.length() == 0 || mot_de_passe.length() == 0) {
             fenetre_principale.getPopup_authentification().informerMessageErreur(1);
         } else if(login.length() >= 20) {
             fenetre_principale.getPopup_authentification().informerMessageErreur(2);
@@ -38,7 +38,7 @@ public class Administration implements InterfaceControleurAuthentification{
             fenetre_principale.getPopup_authentification().informerMessageErreur(3);
         } else {
             
-        }*/
+        }
         modele.creerAuthentification(login, mot_de_passe);
         modele.authentifier();
     }

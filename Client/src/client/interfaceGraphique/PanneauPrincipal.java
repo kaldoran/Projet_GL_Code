@@ -29,11 +29,13 @@ public class PanneauPrincipal extends JPanel{
         
         
         arborescence_client = new PanneauArborescence();
+        arborescence_client.setTitre("Client :");
         arborescence_client.setVisible(true);
         add(arborescence_client,BorderLayout.WEST);
         
         arborescence_serveur =  new PanneauArborescence();
-        arborescence_client.setVisible(true);
+        arborescence_serveur.setTitre("Serveur :");
+        arborescence_serveur.setVisible(true);
         add(arborescence_serveur,BorderLayout.EAST);
         
         commande_transfert = new PanneauCommandeTransfert();

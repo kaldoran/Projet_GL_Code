@@ -33,8 +33,6 @@ public class FenetrePrincipale{
         this.controleur = controleur;
         this.modele_authentification = modele_authentification;
         
-        
-        
         this.setBaseConf();
         
         popup_authentification = new PopUpAuthentification(controleur, modele_authentification);
