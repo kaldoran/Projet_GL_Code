@@ -1,5 +1,7 @@
-package client.interfaceGraphique;
+package client.MVC.vue.impl;
 
+import client.MVC.controleur.InterfaceControleurGestionnaireFichiers;
+import client.MVC.model.InterfaceModeleGestionnaireFichiers;
 import java.awt.BorderLayout;
 import java.nio.file.Files;
 import javax.swing.JPanel;
@@ -19,7 +21,7 @@ public class PanneauPrincipal extends JPanel{
     private PanneauBarreOutils barre_outils;
     private PanneauCommandeTransfert commande_transfert;
     
-    public PanneauPrincipal() {
+    public PanneauPrincipal(InterfaceControleurGestionnaireFichiers controleur_gtnf, InterfaceModeleGestionnaireFichiers modele_gtnf) {
         super();
         this.setLayout(new BorderLayout());
         
@@ -28,15 +30,15 @@ public class PanneauPrincipal extends JPanel{
         add(barre_outils,BorderLayout.NORTH);
         
         
-        arborescence_client = new PanneauArborescence();
-        arborescence_client.setTitre("Client :");
-        arborescence_client.setVisible(true);
-        add(arborescence_client,BorderLayout.WEST);
-        
-        arborescence_serveur =  new PanneauArborescence();
+        arborescence_serveur =  new PanneauArborescence(controleur_gtnf,modele_gtnf);
         arborescence_serveur.setTitre("Serveur :");
         arborescence_serveur.setVisible(true);
         add(arborescence_serveur,BorderLayout.EAST);
+        
+        arborescence_client = new PanneauArborescence(controleur_gtnf,modele_gtnf);
+        arborescence_client.setTitre("Client :");
+        arborescence_client.setVisible(true);
+        add(arborescence_client,BorderLayout.WEST);
         
         commande_transfert = new PanneauCommandeTransfert();
         commande_transfert.setVisible(true);

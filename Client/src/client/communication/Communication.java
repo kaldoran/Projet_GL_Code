@@ -6,7 +6,7 @@
 package client.communication;
 
 import beans.BeanAuthentification;
-import client.Client;
+import client.MVC.modele.impl.Client;
 import client.utils.ClientConstantes;
 import java.io.IOException;
 import java.io.ObjectInputStream;
