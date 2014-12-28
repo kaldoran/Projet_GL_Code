@@ -6,7 +6,9 @@
 package client.MVC.vue.impl;
 
 import client.MVC.controleur.InterfaceControleurAuthentification;
+import client.MVC.controleur.InterfaceControleurGestionnaireFichiers;
 import client.MVC.model.InterfaceModeleAuthentification;
+import client.MVC.model.InterfaceModeleGestionnaireFichiers;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
@@ -21,7 +23,9 @@ import javax.swing.JPanel;
  */
 public class FenetrePrincipale{
     private InterfaceModeleAuthentification modele_authentification;
-    private InterfaceControleurAuthentification controleur;
+    private InterfaceModeleGestionnaireFichiers modele_gestionnaireFichiers;
+    private InterfaceControleurAuthentification controleur_auth;
+    private InterfaceModeleGestionnaireFichiers controleur_gtnf;
     
     private JFrame cadre;
     private PanneauPrincipal panneau_principal;
@@ -29,13 +33,14 @@ public class FenetrePrincipale{
     private BarreMenu barre_menu;
     
     
-    public FenetrePrincipale(InterfaceControleurAuthentification controleur, InterfaceModeleAuthentification modele_authentification) {
-        this.controleur = controleur;
+    public FenetrePrincipale(InterfaceControleurAuthentification controleur_auth, InterfaceModeleAuthentification modele_authentification, InterfaceControleurGestionnaireFichiers controleur_gtnf, InterfaceModeleGestionnaireFichiers modele_gtnf) {
+        this.controleur_auth = controleur_auth;
         this.modele_authentification = modele_authentification;
+        this.modele_gestionnaireFichiers = modele_gtnf;
         
         this.setBaseConf();
         
-        popup_authentification = new PopUpAuthentification(controleur, modele_authentification);
+        popup_authentification = new PopUpAuthentification(controleur_auth, modele_authentification);
     }
 
     public PopUpAuthentification getPopup_authentification() {
@@ -48,7 +53,7 @@ public class FenetrePrincipale{
         
         barre_menu = new BarreMenu();
                 
-        panneau_principal = new PanneauPrincipal();
+        panneau_principal = new PanneauPrincipal((InterfaceControleurGestionnaireFichiers) controleur_gtnf, modele_gestionnaireFichiers);
         panneau_principal.setPreferredSize (new Dimension(1000, 600));
         
         panneau_principal.setBackground(Color.RED);

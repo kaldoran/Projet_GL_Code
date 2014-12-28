@@ -1,8 +1,10 @@
 package client.MVC.controleur.impl;
 
-import beans.BeanAuthentification;
+
 import client.MVC.controleur.InterfaceControleurAuthentification;
+import client.MVC.controleur.InterfaceControleurGestionnaireFichiers;
 import client.MVC.model.InterfaceModeleAuthentification;
+import client.MVC.model.InterfaceModeleGestionnaireFichiers;
 import client.MVC.vue.impl.FenetrePrincipale;
 
 /*
@@ -17,13 +19,17 @@ import client.MVC.vue.impl.FenetrePrincipale;
  */
 
 
-public class Administration implements InterfaceControleurAuthentification{
-    InterfaceModeleAuthentification modele;
-    FenetrePrincipale fenetre_principale;
+public class Administration implements InterfaceControleurAuthentification, InterfaceControleurGestionnaireFichiers{
+    private InterfaceModeleAuthentification modele_auth;
+    private FenetrePrincipale fenetre_principale;
+    
+    private InterfaceModeleGestionnaireFichiers modele_gtnf;
 
-    public Administration(InterfaceModeleAuthentification modele) {
-        this.modele = modele;
-        fenetre_principale =  new FenetrePrincipale(this, modele);
+    public Administration(InterfaceModeleAuthentification modele_auth, InterfaceModeleGestionnaireFichiers modele_gtnf) {
+        this.modele_auth = modele_auth;
+        this.modele_gtnf = modele_gtnf;
+        fenetre_principale =  new FenetrePrincipale(this, modele_auth, this, modele_gtnf);
+        modele_gtnf.initialiserObservateur();
     }
     
     
@@ -31,7 +37,7 @@ public class Administration implements InterfaceControleurAuthentification{
     @Override
     public void setBeanAuthentification(String login, String mot_de_passe) {
         if(login.length() == 0 || mot_de_passe.length() == 0) {
-            fenetre_principale.getPopup_authentification().informerMessageErreur(1);
+                fenetre_principale.getPopup_authentification().informerMessageErreur(1);
         } else if(login.length() >= 20) {
             fenetre_principale.getPopup_authentification().informerMessageErreur(2);
         } else if( mot_de_passe.length() < 4) {
@@ -39,8 +45,8 @@ public class Administration implements InterfaceControleurAuthentification{
         } else {
             
         }
-        modele.creerAuthentification(login, mot_de_passe);
-        modele.authentifier();
+        modele_auth.creerAuthentification(login, mot_de_passe);
+        modele_auth.authentifier();
     }
     
 }

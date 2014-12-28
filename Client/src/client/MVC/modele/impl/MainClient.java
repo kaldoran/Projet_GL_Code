@@ -8,6 +8,7 @@ package client.MVC.modele.impl;
 import client.MVC.controleur.impl.Administration;
 import client.MVC.controleur.InterfaceControleurAuthentification;
 import client.MVC.model.InterfaceModeleAuthentification;
+import client.MVC.model.InterfaceModeleGestionnaireFichiers;
 import client.MVC.vu.ObservateurAuthentification;
 import client.MVC.vue.impl.PopUpAuthentification;
 import client.utils.ClientConstantes;
@@ -31,8 +32,9 @@ public class MainClient {
     public static Socket socket = null;
     
     public static void main(String[] args) {
-        InterfaceModeleAuthentification modele = new Client();
-        InterfaceControleurAuthentification controleur = new Administration(modele);
+        InterfaceModeleAuthentification modele_auth = new Client();
+        InterfaceModeleGestionnaireFichiers modele_gtnf = new GestionnaireFichiers();
+        InterfaceControleurAuthentification controleur = new Administration(modele_auth, modele_gtnf);
 //        String s = null;
 //        try {
 //            System.out.println("Demande de connexion");

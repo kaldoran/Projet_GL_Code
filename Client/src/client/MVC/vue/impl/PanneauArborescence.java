@@ -5,26 +5,47 @@
  */
 package client.MVC.vue.impl;
 
+import client.MVC.controleur.InterfaceControleurGestionnaireFichiers;
+import client.MVC.model.InterfaceModeleGestionnaireFichiers;
+import client.MVC.vu.ObservateurGestionnaireFichiers;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.MutableTreeNode;
 
 /**
  *
  * @author kevin
  */
-public class PanneauArborescence extends JPanel {
+public class PanneauArborescence extends JPanel implements ObservateurGestionnaireFichiers {
+    private InterfaceControleurGestionnaireFichiers controleur;
+    private InterfaceModeleGestionnaireFichiers modele;
+    
     private JTree arborescence_fichiers;
     private JLabel lbl_titre;
     private JLabel lbl_adresse;
     private JPanel panneau_label_tit;
     private JPanel panneau_label_adr;
+    
+    private DefaultMutableTreeNode racine;
         
-    public PanneauArborescence() {
+    public PanneauArborescence(InterfaceControleurGestionnaireFichiers controleur, InterfaceModeleGestionnaireFichiers modele) {
         super();
         setLayout(new BorderLayout());
+        
+        this.controleur = controleur;
+        this.modele = modele;
+        this.modele.enregistrerObservateur(this);
+        
+        DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+        
+        renderer.setTextSelectionColor(Color.yellow);
         
         panneau_label_tit = new JPanel();
         this.add(panneau_label_tit,BorderLayout.NORTH);
@@ -39,9 +60,16 @@ public class PanneauArborescence extends JPanel {
         panneau_label_adr.add(lbl_adresse);
         
         String[] rep = {"rep1","rep2", "rep3"};
-        arborescence_fichiers = new JTree(rep);
+        racine = new DefaultMutableTreeNode();
+        arborescence_fichiers = new JTree(racine);
         arborescence_fichiers.setPreferredSize(new Dimension(400, 600));
-        this.add(arborescence_fichiers,BorderLayout.CENTER);
+        //arborescence_fichiers.setCellRenderer(renderer);
+        
+        JScrollPane scroll = new JScrollPane(arborescence_fichiers);
+        scroll.setPreferredSize(new Dimension(400, 600));
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        this.add(scroll,BorderLayout.CENTER);
     }
     
     
@@ -51,5 +79,11 @@ public class PanneauArborescence extends JPanel {
     
     public void setAdresse(String adresse) {
         lbl_adresse.setText(adresse);
+    }
+
+    @Override
+    public void actualiser(DefaultMutableTreeNode racine) {
+        this.racine.add((MutableTreeNode) racine);
+        this.arborescence_fichiers.updateUI();
     }
 }
