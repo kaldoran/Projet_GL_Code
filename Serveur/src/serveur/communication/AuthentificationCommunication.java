@@ -61,8 +61,8 @@ class AuthentificationCommunication {
                 oos.writeObject(beanAuth);
             }
             
-            oos.close();
-            ois.close();
+            //oos.close();
+            //ois.close();
         } catch (IOException ex) {
                     Logger.getLogger(AuthentificationCommunication.class.getName()).log(Level.SEVERE, null, ex);
                 }

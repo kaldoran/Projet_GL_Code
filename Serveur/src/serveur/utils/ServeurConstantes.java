@@ -20,5 +20,6 @@ public class ServeurConstantes {
     public final static String FICHIER = "/home";
     
     public final static String FICHIER_SORTIE_DDL = "/home/kaldoran/mailbis";
+    public final static String REPERTOIRE_PARTAGE = "/home/kaldoran/Téléchargements";
 
 }

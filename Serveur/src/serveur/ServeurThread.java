@@ -6,6 +6,7 @@
 package serveur;
 
 import beans.BeanAuthentification;
+import beans.BeanInformationServeur;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +31,8 @@ public class ServeurThread implements Runnable {
     private Thread t;  // contiendra le thread du client
     private ObjectOutputStream out = null;
     private ObjectInputStream in = null;
-    ServeurAuthentification serveur_authentification = null;
+    private ServeurAuthentification serveur_authentification = null;
+    private GestionnaireFichiers gestionnaire_fichier;
     private final int numClient = 0; // contiendra le numéro de client géré par ce thread
     
     private final int DECONNEXION = 10;
@@ -42,6 +44,7 @@ public class ServeurThread implements Runnable {
     public ServeurThread(Socket s, ServeurAuthentification serveurAuth) {
         this.s = s;
         this.serveur_authentification = serveurAuth;
+        gestionnaire_fichier = new GestionnaireFichiers();
         System.out.println("New Serveur Thread");
         
 
@@ -51,7 +54,7 @@ public class ServeurThread implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         t = new Thread(this); // instanciation du thread
         t.start(); // demarrage du thread, la fonction run() est ici lancée
     }
@@ -59,6 +62,7 @@ public class ServeurThread implements Runnable {
     @Override
     public void run() {
         BeanAuthentification bean_authentification = null;
+        BeanInformationServeur bean_informationServeur = null;
         Object O = null;
         String st;
         String loc = ServeurConstantes.FICHIER;
@@ -76,61 +80,85 @@ public class ServeurThread implements Runnable {
         //      avec la reponse negative à l'utilisateur et attent a nouveau un bean authentification
         // 
         while ( sortie != DECONNEXION ) {
-            
-            try {
-                switch (etat) {
-                    
-                    case AUTHENTIFICATION :
-                        while(O == null && !(O instanceof BeanAuthentification)) {
-                            try {
-                                O = in.readObject();
-                                
-                            } catch (IOException ex) {
-                                Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (ClassNotFoundException ex) {
-                                Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+          
+            switch (etat) {
+
+                case AUTHENTIFICATION:
+                    while (O == null && !(O instanceof BeanAuthentification)) {
+                        try {
+                            O = in.readObject();
+
+                        } catch (IOException ex) {
+                            Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        bean_authentification = (BeanAuthentification) O;
-                        
-                        if( serveur_authentification.ValiderAuthentification(bean_authentification) ) {
-                            try {
-                                out.writeObject(bean_authentification);
-                            } catch (IOException ex) {
-                                Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            System.out.println("Un nouveau client s'est connecte, no " + numClient);
-                            etat = 1;
-                            break;
-                            
-                        } else {
-                            
-                            try {
-                                out.writeObject(bean_authentification);
-                            } catch (IOException ex) {
-                                Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                    }
+                    bean_authentification = (BeanAuthentification) O;
+
+                    if (serveur_authentification.ValiderAuthentification(bean_authentification)) {
+                        try {
+                            out.writeObject(bean_authentification);
+                        } catch (IOException ex) {
+                            Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    
-                    case ENVOYER_ARBORESCENCE :
-                        sortie = DECONNEXION;
+                        System.out.println("Un nouveau client s'est connecte, no " + numClient);
+                        etat = ENVOYER_ARBORESCENCE;
                         break;
-                        
-                    case RECEVOIR_COMMANDE :
-                        sortie = DECONNEXION;
+
+                    } else {
+
+                        try {
+                            out.writeObject(bean_authentification);
+                        } catch (IOException ex) {
+                            Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         break;
-                        
-                }
-                
-                out.close();
-                in.close();
-                s.close();
-            } catch (IOException ex) {
-                Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                case ENVOYER_ARBORESCENCE:
+                    O = null;
+                    while (O == null && !(O instanceof BeanInformationServeur)) {
+                        try {
+                            O = in.readObject();
+
+                        } catch (IOException ex) {
+                            Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    bean_informationServeur = (BeanInformationServeur) O;
+
+                    bean_informationServeur.setArborescence(gestionnaire_fichier.getRacine());
+                    bean_informationServeur.setNom(System.getProperties().getProperty("user.name"));
+
+                    try {
+                        out.writeObject(bean_informationServeur);
+                    } catch (IOException ex) {
+                        Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    etat = RECEVOIR_COMMANDE;
+                    break;
+
+                case RECEVOIR_COMMANDE:
+                    sortie = DECONNEXION;
+                    break;
+
             }
+
+            
         }
         
-        
+        try {
+            out.close();
+            in.close();
+            s.close();
+        } catch (IOException ex) {
+                Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         
         
         /*
@@ -196,4 +224,5 @@ public class ServeurThread implements Runnable {
             }
         }*/
     }
+
 }
