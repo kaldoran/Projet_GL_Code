@@ -25,7 +25,7 @@ public class FenetrePrincipale{
     private InterfaceModeleAuthentification modele_authentification;
     private InterfaceModeleGestionnaireFichiers modele_gestionnaireFichiers;
     private InterfaceControleurAuthentification controleur_auth;
-    private InterfaceModeleGestionnaireFichiers controleur_gtnf;
+    private InterfaceControleurGestionnaireFichiers controleur_gtnf;
     
     private JFrame cadre;
     private PanneauPrincipal panneau_principal;
@@ -35,11 +35,14 @@ public class FenetrePrincipale{
     
     public FenetrePrincipale(InterfaceControleurAuthentification controleur_auth, InterfaceModeleAuthentification modele_authentification, InterfaceControleurGestionnaireFichiers controleur_gtnf, InterfaceModeleGestionnaireFichiers modele_gtnf) {
         this.controleur_auth = controleur_auth;
+        this.controleur_gtnf = controleur_gtnf;
         this.modele_authentification = modele_authentification;
         this.modele_gestionnaireFichiers = modele_gtnf;
         
         this.setBaseConf();
-        
+    }
+    
+    public void ouvrirPopUpAuthentification() {
         popup_authentification = new PopUpAuthentification(controleur_auth, modele_authentification);
     }
 

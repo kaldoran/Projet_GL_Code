@@ -9,10 +9,6 @@ package client.MVC.controleur;
  *
  * @author kevin
  */
-public interface InterfaceControleurAuthentification {
-    
-    void setBeanAuthentification(String login, String mot_de_passe);
-    
-    void fermerApplication();
+public interface InterfaceControleur extends InterfaceControleurAuthentification, InterfaceControleurGestionnaireFichiers {
     
 }

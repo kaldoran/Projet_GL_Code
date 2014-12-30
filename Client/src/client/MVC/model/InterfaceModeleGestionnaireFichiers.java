@@ -17,11 +17,21 @@ public interface InterfaceModeleGestionnaireFichiers {
     
     DefaultMutableTreeNode explorerRepertoire(File repertoire_racine);
     
+    public String obtenirAdresseFichierClient(String nom_fichier);
+    
+    String obtenirAdresseFichierServeur(String nom_fichier);
+    
     void enregistrerObservateur (ObservateurGestionnaireFichiers o);
     
     void supprimerObservateur (ObservateurGestionnaireFichiers o);
     
-    void notifierObservateur (DefaultMutableTreeNode racine);
+    void notifierObservateurServeur(DefaultMutableTreeNode racine);
+    
+    void notifierObservateurClient(DefaultMutableTreeNode racine);
+    
+    void notifierObservateurAdresseFichierClient(String adresse_fichier);
+    
+    void notifierObservateurAdresseFichierServeur(String adresse_fichier);
     
     void initialiserObservateur();
 }

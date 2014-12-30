@@ -16,4 +16,7 @@ public interface ObservateurGestionnaireFichiers {
   
     void actualiser (DefaultMutableTreeNode racine);
     
+    void setAdresseFichier(String adresse_fichier);
+    
+    boolean isArboServeur();
 }

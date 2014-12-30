@@ -11,4 +11,5 @@ package client.MVC.controleur;
  */
 public interface InterfaceControleurGestionnaireFichiers {
     
+    void chercherAdresseFichier(String nom_fichier, boolean depuis_serveur);
 }
