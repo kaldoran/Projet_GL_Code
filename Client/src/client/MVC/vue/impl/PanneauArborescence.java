@@ -6,6 +6,7 @@
 package client.MVC.vue.impl;
 
 import client.MVC.controleur.InterfaceControleurGestionnaireFichiers;
+import client.MVC.controleur.InterfaceControleurTelechargementTeleversement;
 import client.MVC.model.InterfaceModeleGestionnaireFichiers;
 import client.MVC.vu.ObservateurGestionnaireFichiers;
 import java.awt.BorderLayout;
@@ -112,9 +113,7 @@ public class PanneauArborescence extends JPanel implements ObservateurGestionnai
         JTree tree = (JTree) tse.getSource();
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
         String selectedNodeName = selectedNode.toString();System.out.println("selectdeNodeName : " + selectedNodeName);
-        if (selectedNode.isLeaf()) {
-            controleur.chercherAdresseFichier(selectedNodeName, ARBORESCENCE_SERVEUR);
-        }
+        controleur.traiterSelectionFichier(selectedNodeName, ARBORESCENCE_SERVEUR, selectedNode.isLeaf());
     }
     
 }

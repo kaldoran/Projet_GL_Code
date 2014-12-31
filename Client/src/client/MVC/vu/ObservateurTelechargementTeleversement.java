@@ -3,13 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client.MVC.controleur;
+package client.MVC.vu;
 
 /**
  *
  * @author kevin
  */
-public interface InterfaceControleurGestionnaireFichiers {
-
-    public void traiterSelectionFichier(String nom_fichier, boolean ARBORESCENCE_SERVEUR, boolean estUnFichier);
+public interface ObservateurTelechargementTeleversement {
+    
+    void initialiserBoutons();
+    
+    void activerBoutonTeleverser();
+            
+    void activerBoutonTelecharger();
 }

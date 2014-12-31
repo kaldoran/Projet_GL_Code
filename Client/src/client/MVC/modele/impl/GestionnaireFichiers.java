@@ -8,8 +8,10 @@ package client.MVC.modele.impl;
 import client.MVC.model.InterfaceModeleGestionnaireFichiers;
 import client.MVC.vu.ObservateurGestionnaireFichiers;
 import client.utils.ClientConstantes;
+import client.utils.MessagesErreur;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -57,6 +59,14 @@ public class GestionnaireFichiers implements InterfaceModeleGestionnaireFichiers
         return arborescence_client;
     }
     
+    
+    @Override
+    public void setHashMap_repertoires_serveur(HashMap<String, File> hashmap) {
+        hashmap_repertoires_serveur = hashmap;
+    }
+
+
+
     public DefaultMutableTreeNode explorerRepertoire(File repertoire_racine) {
         // on créé un noeud
         DefaultMutableTreeNode racine = new DefaultMutableTreeNode(repertoire_racine.getName(),true);
@@ -90,20 +100,51 @@ public class GestionnaireFichiers implements InterfaceModeleGestionnaireFichiers
             }
         }
     }
-
     
     @Override
+    public boolean estUnRepertoire(String adresse_fichier, boolean depuis_serveur) {
+        String[] decoupage = null; 
+        File fichier = null;
+        /** decoupage d'une adresse systeme linux */
+        decoupage = adresse_fichier.split("/");
+        
+        /** Si pas adresse linux, alors faire decoupage adresse systeme windows */
+        if(decoupage == null) {
+            decoupage = adresse_fichier.split("\\");
+            if (decoupage == null) {
+                System.out.println("adresse invalide");
+                return false;
+            }
+        }
+        
+        if(depuis_serveur) {
+            if(hashmap_repertoires_serveur.containsKey(decoupage[decoupage.length])) {
+                fichier = hashmap_repertoires_serveur.get(decoupage[decoupage.length]);
+                return fichier.isDirectory();
+            }
+            return false;
+        }
+        
+        if(hashmap_repertoires_client.containsKey(decoupage[decoupage.length])) {
+            fichier = hashmap_repertoires_client.get(decoupage[decoupage.length]);
+            return fichier.isDirectory();
+        }
+        
+        return false;
+    }
+
+    @Override
     public String obtenirAdresseFichierClient(String nom_fichier) {
-        String adresse;
+        String adresse = null;
 
         if (hashmap_repertoires_client.isEmpty()) {
-            adresse = "adresse fichier introuvable.";
+            adresse = MessagesErreur.FICHIER_INTROUVABLE.toString();
             notifierObservateurAdresseFichierClient(adresse);
             return adresse;
         }
 
         if(!(hashmap_repertoires_client.containsKey(nom_fichier))) {
-            adresse = "fichier inexistant.";
+            adresse = MessagesErreur.FICHIER_INEXISTANT.toString();
             notifierObservateurAdresseFichierClient(adresse);
             return adresse;
         }
@@ -119,13 +160,13 @@ public class GestionnaireFichiers implements InterfaceModeleGestionnaireFichiers
         String adresse;
         
         if (hashmap_repertoires_serveur.isEmpty()) {
-            adresse = "adresse fichier introuvable.";
+            adresse = MessagesErreur.FICHIER_INEXISTANT.toString();
             notifierObservateurAdresseFichierServeur(adresse);
             return adresse;
         }
 
         if(!(hashmap_repertoires_serveur.containsKey(nom_fichier))) {
-            adresse = "fichier inexistant.";
+            adresse = MessagesErreur.FICHIER_INTROUVABLE.toString();
             notifierObservateurAdresseFichierServeur(adresse);
             return adresse;
         }
@@ -189,6 +230,5 @@ public class GestionnaireFichiers implements InterfaceModeleGestionnaireFichiers
             }
         }
     }
-
 
 }

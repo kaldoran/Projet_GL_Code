@@ -9,6 +9,6 @@ package client.MVC.controleur;
  *
  * @author kevin
  */
-public interface InterfaceControleur extends InterfaceControleurAuthentification, InterfaceControleurGestionnaireFichiers {
+public interface InterfaceControleur extends InterfaceControleurAuthentification, InterfaceControleurGestionnaireFichiers, InterfaceControleurTelechargementTeleversement {
     
 }

@@ -7,6 +7,7 @@ package client.MVC.model;
 
 import client.MVC.vu.ObservateurGestionnaireFichiers;
 import java.io.File;
+import java.util.HashMap;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
@@ -15,11 +16,15 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public interface InterfaceModeleGestionnaireFichiers {
     
+    boolean estUnRepertoire(String adresse_fichier, boolean depuis_serveur);
+    
     DefaultMutableTreeNode explorerRepertoire(File repertoire_racine);
     
     public String obtenirAdresseFichierClient(String nom_fichier);
     
     String obtenirAdresseFichierServeur(String nom_fichier);
+    
+    void setHashMap_repertoires_serveur (HashMap<String, File> hashmap);
     
     void enregistrerObservateur (ObservateurGestionnaireFichiers o);
     

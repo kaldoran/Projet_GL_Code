@@ -10,5 +10,8 @@ package client.MVC.controleur;
  * @author kevin
  */
 public interface InterfaceControleurTelechargementTeleversement {
+   
+    void initialiserTelechargement ();
     
+    void initialiserTeleversement ();
 }

@@ -6,6 +6,7 @@
 package client.MVC.model;
 
 import beans.BeanInformationServeur;
+import client.MVC.vu.ObservateurTelechargementTeleversement;
 import client.communication.Communication;
 
 /**
@@ -20,8 +21,20 @@ public interface InterfaceModeleTelechargementTeleversement {
     
     BeanInformationServeur getInformationServeur();
     
-    //void telecharger();
+    String getAdresseFichierClient();
     
-    //void televerser();
+    String getAdresseFichierServeur();
+    
+    void setAdresseFichierClient(String adresse_fichier, boolean estUnFichier);
+    
+    void setAdresseFichierServeur(String adresse_fichier, boolean estUnFichier);
+    
+    void enregistrerObservateur (ObservateurTelechargementTeleversement o);
+    
+    void supprimerObservateur (ObservateurTelechargementTeleversement o);
+    
+    void notifierObservateur();
+    
+    void initialiserObservateur();
     
 }
