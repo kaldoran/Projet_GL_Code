@@ -132,7 +132,7 @@ public class ServeurThread implements Runnable {
 
                     bean_informationServeur.setArborescence(gestionnaire_fichier.getRacine());
                     bean_informationServeur.setNom(System.getProperties().getProperty("user.name"));
-
+                    bean_informationServeur.setHashmap_serveur(gestionnaire_fichier.getHashMap_repertoires_client());
                     try {
                         out.writeObject(bean_informationServeur);
                     } catch (IOException ex) {

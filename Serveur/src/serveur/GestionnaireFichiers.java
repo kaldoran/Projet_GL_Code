@@ -52,6 +52,10 @@ public class GestionnaireFichiers {
         return arborescence_client;
     }
     
+    public HashMap<String,File> getHashMap_repertoires_client() {
+        return hashmap_repertoires_client;
+    }
+    
     public DefaultMutableTreeNode explorerRepertoire(File repertoire_racine) {
         // on créé un noeud
         DefaultMutableTreeNode racine = new DefaultMutableTreeNode(repertoire_racine.getName(),true);
