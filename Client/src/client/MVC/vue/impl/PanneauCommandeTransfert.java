@@ -85,8 +85,14 @@ public class PanneauCommandeTransfert extends JPanel implements ObservateurTelec
     }
     
     @Override
-    public void actionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == btn_telecharger) {
+            System.out.println("bouton telecharger");
+            controleur.initialiserTelechargement();
+        } else if(e.getSource() == btn_televerser) {
+            
+            controleur.initialiserTeleversement();
+        } 
     }
 
 }

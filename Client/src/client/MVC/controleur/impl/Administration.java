@@ -93,12 +93,12 @@ public class Administration implements InterfaceControleur{
 
     @Override
     public void initialiserTelechargement() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        modele_TlgTlv.Telecharger();
     }
 
     @Override
     public void initialiserTeleversement() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        modele_TlgTlv.Televerser();
     }
 
 

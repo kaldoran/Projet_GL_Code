@@ -23,13 +23,11 @@ class AuthentificationCommunication {
     private ObjectOutputStream oos = null;
     private ObjectInputStream ois = null;
     
-    public AuthentificationCommunication(Socket socket, ObjectOutputStream oos, ObjectInputStream ois) {
-        this.oos = oos;
-        this.ois = ois;
-
+    public AuthentificationCommunication() {
+    
     }
     
-    public boolean authentifier(BeanAuthentification beanAuth) {
+    boolean authentifier(ObjectOutputStream oos, ObjectInputStream ois, BeanAuthentification beanAuth) {
         BeanAuthentification bean_rcpt = null;
         
         /** envoie du bean authentification */
@@ -59,5 +57,5 @@ class AuthentificationCommunication {
         /** retourner la validation de l'authentifcation */
         return bean_rcpt.isValide();
     }
-    
+
 }

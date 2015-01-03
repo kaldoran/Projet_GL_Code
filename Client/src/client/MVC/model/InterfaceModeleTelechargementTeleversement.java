@@ -15,6 +15,10 @@ import client.communication.Communication;
  */
 public interface InterfaceModeleTelechargementTeleversement {
     
+    void Telecharger();
+    
+    void Televerser();
+    
     void recupererCommunication(Communication communication);
     
     void recupererInformationServeur();

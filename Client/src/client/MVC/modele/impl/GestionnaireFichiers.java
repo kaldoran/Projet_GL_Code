@@ -39,7 +39,7 @@ public class GestionnaireFichiers implements InterfaceModeleGestionnaireFichiers
         hashmap_repertoires_serveur = new HashMap<String, File>();
         tab_repertoires = repertoire_racine.listFiles();
   
-        System.out.println("|repertoire|" + tab_repertoires.length );
+        //System.out.println("|repertoire|" + tab_repertoires.length );
         // on définit notre premier noeud
         arborescence_client = new DefaultMutableTreeNode("partage client",true);
         // pour chaque lecteur
@@ -84,6 +84,9 @@ public class GestionnaireFichiers implements InterfaceModeleGestionnaireFichiers
                     if (list[j].isDirectory())
                     {	
                         file = explorerRepertoire(list[j]);  
+                        racine.add(file);
+                    } else {
+                        file = new DefaultMutableTreeNode(list[j].getName(),true);
                         racine.add(file);
                     }
                 }

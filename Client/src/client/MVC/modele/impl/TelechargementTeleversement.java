@@ -67,6 +67,17 @@ public class TelechargementTeleversement implements InterfaceModeleTelechargemen
     }
     
     @Override
+    public void Telecharger() {
+        communication.procederTelechargement(adresse_fichier_serveur, adresse_fichier_client);
+    }
+
+    @Override
+    public void Televerser() {
+        communication.procederTeleversement(adresse_fichier_serveur, adresse_fichier_client);
+    }
+
+    
+    @Override
     public void recupererCommunication(Communication communication) {
         this.communication = communication;
     }
@@ -133,5 +144,4 @@ public class TelechargementTeleversement implements InterfaceModeleTelechargemen
             initialiserObservateur();
         }
     }
-
 }

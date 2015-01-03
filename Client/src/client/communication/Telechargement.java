@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client.MVC.modele.impl;
+package client.communication;
 
 import client.utils.ClientConstantes;
 import java.io.BufferedOutputStream;
@@ -23,8 +23,13 @@ public class Telechargement implements Runnable {
     public static Thread t;
     private String file;
     
-    public Telechargement(String commande) {
-        file = commande.substring(commande.indexOf(' ') + 1);
+    private String adresse_fichier_serveur;
+    private String adresse_repertoire_client;
+    private int port_telechargement;
+    
+    public Telechargement() {
+        
+        /*file = commande.substring(commande.indexOf(' ') + 1);
         
         try {
             s = new Socket(ClientConstantes.SERVEUR, ClientConstantes.PORTF);
@@ -35,7 +40,7 @@ public class Telechargement implements Runnable {
         System.out.println("File Telechargement : " + file);
         
         t = new Thread(this);
-        t.start();
+        t.start();*/
     }
 
     @Override
@@ -43,6 +48,7 @@ public class Telechargement implements Runnable {
         InputStream in = null;
         
         try {
+            s = new Socket(ClientConstantes.SERVEUR, port_telechargement);
             in = s.getInputStream();
         } catch (IOException ex) {
             Logger.getLogger(Telechargement.class.getName()).log(Level.SEVERE, null, ex);
@@ -57,12 +63,12 @@ public class Telechargement implements Runnable {
             BufferedOutputStream bos = null;
             FileOutputStream fos;
 
-            fos = new FileOutputStream(ClientConstantes.FICHIER_SORTIE_DDL);
+            fos = new FileOutputStream(adresse_repertoire_client+"/file1");
             bos = new BufferedOutputStream(fos);
             bytesRead = in.read(mybytearray, 0, mybytearray.length);
             current = bytesRead;
-
-            do {
+            
+            do {    System.out.print(".");
                 bytesRead = in.read(mybytearray, current,
                         (mybytearray.length - current));
                 if (bytesRead >= 0) {
@@ -73,6 +79,7 @@ public class Telechargement implements Runnable {
             bos.write(mybytearray, 0, current);
             bos.flush();
             bos.close();
+            fos.close();
             
             in.close();
             s.close();
@@ -81,4 +88,13 @@ public class Telechargement implements Runnable {
         }
     }
 
+    public void demarrer(String adresse_fichier_serveur, String adresse_repertoire_client, int port_telechargement) {
+        this.adresse_fichier_serveur = adresse_fichier_serveur;
+        this.adresse_repertoire_client = adresse_repertoire_client;
+        this.port_telechargement = port_telechargement;
+        
+        t = new Thread(this);
+        t.start();
+        
+    }
 }
