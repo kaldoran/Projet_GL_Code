@@ -21,6 +21,8 @@ public class Serveur {
     /**Attributs autre */
     private ServerSocket ss;
     private InetAddress LocaleAdresse;
+    public static int PORT_TELECHARGEMENT = 11000;
+    public  static int PORT_TELEVERSEMENT = 12000;
     
     /** Attributs Service */
     private ServeurAuthentification serveurAuthentification;

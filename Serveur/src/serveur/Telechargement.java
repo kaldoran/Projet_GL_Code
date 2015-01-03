@@ -21,27 +21,28 @@ import serveur.utils.ServeurConstantes;
  * @author kaldoran
  */
 public class Telechargement implements Runnable{
+    private String adresse_repertoire;
+    private int numero_port;
+    
     private ServerSocket ss;
     private Socket s;
     public static Thread t;
     private File f;
     
-    public Telechargement(String file, String path) {
-        try {
-            ss = new ServerSocket(ServeurConstantes.PORTF);
-            s = ss.accept();
-        } catch (IOException ex) {
-            Logger.getLogger(Telechargement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        System.err.println("File Telechargement : " + path + "/" + file);
-        t = new Thread(this);
-        t.start();
+    public Telechargement(String adresse_repertoire, int numero_port) {
+        this.adresse_repertoire = adresse_repertoire;
+        this.numero_port = numero_port;
     }
 
     @Override
     public void run() {
-        
+        try {
+            ss = new ServerSocket(numero_port);
+            s = ss.accept();System.out.println("connexion de " + s.getRemoteSocketAddress().toString());
+        } catch (IOException ex) {
+            Logger.getLogger(Telechargement.class.getName()).log(Level.SEVERE, null, ex);
+            this.numero_port++;
+        }
         try {
             InputStream in = s.getInputStream();
             
@@ -50,7 +51,7 @@ public class Telechargement implements Runnable{
             int current = 0;
             byte[] mybytearray = new byte[filesize];
             
-            FileOutputStream fos = new FileOutputStream(ServeurConstantes.FICHIER_SORTIE_DDL);
+            FileOutputStream fos = new FileOutputStream(adresse_repertoire + "/file1");
             BufferedOutputStream bos = new BufferedOutputStream(fos);
             bytesRead = in.read(mybytearray, 0, mybytearray.length);
             current = bytesRead;
@@ -65,7 +66,7 @@ public class Telechargement implements Runnable{
             bos.write(mybytearray, 0, current);
             bos.flush();
             bos.close();
-            
+            fos.close();
             in.close();
             s.close();
             ss.close();
@@ -73,7 +74,11 @@ public class Telechargement implements Runnable{
         } catch (IOException ex) {
             Logger.getLogger(Telechargement.class.getName()).log(Level.SEVERE, null, ex);
         }
- }
-    
+    }
+
+    public void demarrer() {
+        t = new Thread(this);
+        t.start();
+    }
     
 }

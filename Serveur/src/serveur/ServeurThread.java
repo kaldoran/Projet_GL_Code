@@ -7,6 +7,8 @@ package serveur;
 
 import beans.BeanAuthentification;
 import beans.BeanInformationServeur;
+import beans.BeanTelechargement;
+import beans.BeanTeleversement;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +16,8 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,15 +37,24 @@ public class ServeurThread implements Runnable {
     private ObjectInputStream in = null;
     private ServeurAuthentification serveur_authentification = null;
     private GestionnaireFichiers gestionnaire_fichier;
+    
+    private int min_plage_numero_port;
+    private final int max_plage_numero_port;
     private final int numClient = 0; // contiendra le numéro de client géré par ce thread
     
     private final int DECONNEXION = 10;
     private final int AUTHENTIFICATION = 0;
     private final int ENVOYER_ARBORESCENCE = 1;
-    private final int RECEVOIR_COMMANDE = 2;
+    private final int RECEVOIR_DEMANDE = 2;
+    private final int TELECHARGEMENT = 3;
+    private final int TELEVERSEMENT = 4;
     
 
     public ServeurThread(Socket s, ServeurAuthentification serveurAuth) {
+        min_plage_numero_port = Serveur.PORT_TELECHARGEMENT;
+        max_plage_numero_port = min_plage_numero_port +100;
+        Serveur.PORT_TELECHARGEMENT += 100;
+        
         this.s = s;
         this.serveur_authentification = serveurAuth;
         gestionnaire_fichier = new GestionnaireFichiers();
@@ -63,6 +76,8 @@ public class ServeurThread implements Runnable {
     public void run() {
         BeanAuthentification bean_authentification = null;
         BeanInformationServeur bean_informationServeur = null;
+        BeanTelechargement bean_telechargement = null;
+        BeanTeleversement bean_televersement = null;
         Object O = null;
         String st;
         String loc = ServeurConstantes.FICHIER;
@@ -79,7 +94,7 @@ public class ServeurThread implements Runnable {
         // -    si l'authentification est invalide, alors on renvoie le bean authentification
         //      avec la reponse negative à l'utilisateur et attent a nouveau un bean authentification
         // 
-        while ( sortie != DECONNEXION ) {
+        while ( etat != DECONNEXION ) {
           
             switch (etat) {
 
@@ -118,6 +133,7 @@ public class ServeurThread implements Runnable {
 
                 case ENVOYER_ARBORESCENCE:
                     O = null;
+                    bean_informationServeur = null;
                     while (O == null && !(O instanceof BeanInformationServeur)) {
                         try {
                             O = in.readObject();
@@ -139,11 +155,85 @@ public class ServeurThread implements Runnable {
                         Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                    etat = RECEVOIR_COMMANDE;
+                    etat = RECEVOIR_DEMANDE;
                     break;
 
-                case RECEVOIR_COMMANDE:
-                    sortie = DECONNEXION;
+                case RECEVOIR_DEMANDE:
+                    O = null;
+                    bean_telechargement = null;
+                    bean_televersement = null;
+                    //while (O == null && (O instanceof BeanTelechargement || O instanceof BeanTeleversement)) {
+                    while (O == null) {
+                        try {
+                            O = in.readObject();
+
+                        } catch (IOException ex) {
+                            Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                            etat = DECONNEXION;
+                            break;
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                            etat = DECONNEXION;
+                            break;
+                        }
+                    }
+                    
+                    if(O instanceof BeanTelechargement) {
+                        if(min_plage_numero_port < max_plage_numero_port) {
+                            min_plage_numero_port++;
+                        } else {
+                            min_plage_numero_port = max_plage_numero_port -100;
+                        }
+                        
+                        bean_telechargement = (BeanTelechargement) O;
+                        bean_telechargement.setPort_telechargement(min_plage_numero_port);
+                        System.out.println("Bean telechargement recu");
+                        
+                        //quand le client télécharge, le serveur téléverse
+                        etat = TELEVERSEMENT;
+                    } else if (O instanceof BeanTeleversement ) {
+                        if(min_plage_numero_port < max_plage_numero_port) {
+                            min_plage_numero_port++;
+                        } else {
+                            min_plage_numero_port = max_plage_numero_port -100;
+                        }
+                        
+                        bean_televersement = (BeanTeleversement) O;
+                        bean_televersement.setPort_televersement(min_plage_numero_port);
+                        System.out.println("Bean televersement recu");
+                        
+                        //quand le client televerse, le serveur telecharge
+                        etat = TELECHARGEMENT;
+                    } else {//en principe jamais atteint
+                        etat = RECEVOIR_DEMANDE;
+                    }
+                    
+                    break;
+
+                case TELECHARGEMENT :
+                    Telechargement tlgt = new Telechargement(bean_televersement.getAdresse_repertoire(), min_plage_numero_port);
+                    tlgt.demarrer();
+                    try {
+                            out.writeObject(bean_televersement);
+                        } catch (IOException ex) {
+                            Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    System.out.println("bean televersement envoyé");
+                    etat = RECEVOIR_DEMANDE;
+                    break;
+                    
+                case TELEVERSEMENT :
+                    Televersement tlvt = new Televersement(bean_telechargement.getAdresse_fichier(),min_plage_numero_port);
+                    tlvt.demarrer();
+                    try {
+                            out.writeObject(bean_telechargement);
+                        } catch (IOException ex) {
+                            Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    System.out.println("bean telechargement envoyé");
+                    etat = RECEVOIR_DEMANDE;
+                
+                case DECONNEXION :
                     break;
 
             }

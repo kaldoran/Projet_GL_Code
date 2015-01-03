@@ -21,35 +21,36 @@ import serveur.utils.ServeurConstantes;
  * @author kaldoran
  */
 public class Televersement implements Runnable {
-
+    private String adresse_fichier;
+    private int numero_port;
+    
     private ServerSocket ss;
     private Socket s;
     public static Thread t;
     private File f;
 
-    public Televersement(String file, String path) {
+    public Televersement(String adresse_fichier, int numero_port) {
+        this.adresse_fichier = adresse_fichier;
+        this.numero_port = numero_port;
+       
+    }
+
+    @Override
+    public void run() {
+        
         try {
-            ss = new ServerSocket(ServeurConstantes.PORTF);
+            ss = new ServerSocket(numero_port);
             s = ss.accept();
         } catch (IOException ex) {
             Logger.getLogger(Televersement.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        System.out.println("File Televersement : " + path + "/" + file);
-        f = new File(path + "/" + file);
-
-        t = new Thread(this);
-        t.start();
-    }
-
-    @Override
-    public void run() {
         try {
             OutputStream out;
             out = s.getOutputStream();
 
             FileInputStream fis = null;
-
+            f = new File(adresse_fichier);
             byte[] mybytearray = new byte[(int) f.length() + 1];
             fis = new FileInputStream(f);
             BufferedInputStream bis = new BufferedInputStream(fis);
@@ -65,5 +66,10 @@ public class Televersement implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(Televersement.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void demarrer() {
+        t = new Thread(this);
+        t.start();
     }
 }

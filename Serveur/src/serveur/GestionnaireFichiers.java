@@ -32,7 +32,7 @@ public class GestionnaireFichiers {
         hashmap_repertoires_client = new HashMap<String, File>();
         tab_repertoires = repertoire_racine.listFiles();
   
-        System.out.println("|repertoire|" + tab_repertoires.length );
+        //System.out.println("|repertoire|" + tab_repertoires.length );
         // on définit notre premier noeud
         arborescence_client = new DefaultMutableTreeNode("partage client",true);
         // pour chaque lecteur
@@ -64,15 +64,18 @@ public class GestionnaireFichiers {
         File[] list = repertoire_racine.listFiles();
 
         if ( list != null)
-        {
+        { 
                 // pour chaque sous rep on appel cette methode => recursivité
                 for (int j = 1 ; j<list.length ; j++)
                 {
                     hashmap_repertoires_client.put(list[j].getName(), list[j]);
                     DefaultMutableTreeNode file = null;
                     if (list[j].isDirectory())
-                    {	
+                    {	System.out.println("REPERTOIRE");
                         file = explorerRepertoire(list[j]);  
+                        racine.add(file);
+                    }else {
+                        file = new DefaultMutableTreeNode(list[j].getName(),true);
                         racine.add(file);
                     }
                 }
