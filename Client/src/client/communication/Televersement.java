@@ -45,35 +45,21 @@ public class Televersement implements Runnable {
 
     @Override
     public void run() {
-        OutputStream out = null;
         
         try {
-            s = new Socket(ClientConstantes.SERVEUR, port_televersement);
-        } catch (IOException ex) {
-            Logger.getLogger(Televersement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        try {
-            out = s.getOutputStream();
-        } catch (IOException ex) {
-            Logger.getLogger(Televersement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        f = new File(adresse_fichier_client);
-        try {
-            byte[] mybytearray = new byte[(int) f.length() + 1];
-            FileInputStream fis = new FileInputStream(f);
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            bis.read(mybytearray, 0, mybytearray.length);
-            out.write(mybytearray, 0, mybytearray.length);
-            out.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(Televersement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        try {
-            out.close();
+            
+            try {
+                s = new Socket(ClientConstantes.SERVEUR, port_televersement);
+            } catch (IOException ex) {
+                Logger.getLogger(Televersement.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            FTPCommunication.transfert(
+                    new FileInputStream(adresse_fichier_client),
+                    s.getOutputStream(),
+                    true);
+            
             s.close();
+            
         } catch (IOException ex) {
             Logger.getLogger(Televersement.class.getName()).log(Level.SEVERE, null, ex);
         }

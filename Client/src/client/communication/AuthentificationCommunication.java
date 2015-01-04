@@ -33,6 +33,7 @@ class AuthentificationCommunication {
         /** envoie du bean authentification */
         try {
             oos.writeObject(beanAuth);
+            oos.flush();
         } catch (IOException ex) {
             Logger.getLogger(AuthentificationCommunication.class.getName()).log(Level.SEVERE, null, ex);
         }

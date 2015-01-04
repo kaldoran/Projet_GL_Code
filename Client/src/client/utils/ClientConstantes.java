@@ -16,6 +16,6 @@ public class ClientConstantes {
     
     public final static String FICHIER_SEND = "/home/kaldoran/mail";
     public final static String FICHIER_SORTIE_DDL = "/home/kaldoran/mailbis";
-    public final static String REPERTOIRE_PARTAGE = "/home/kevin";
+    public final static String REPERTOIRE_PARTAGE = "/home/"+System.getProperties().getProperty("user.name");
 
 }

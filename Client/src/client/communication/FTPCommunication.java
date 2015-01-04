@@ -10,8 +10,10 @@ import beans.BeanInformationServeur;
 import beans.BeanTelechargement;
 import beans.BeanTeleversement;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +41,7 @@ class FTPCommunication {
         
         try {
             oos.writeObject(beanInfoServ);
-            
+            oos.flush();
             /** attente de la reponse du serveur*/
             while(bean_rcpt == null) {
                 bean_rcpt = (BeanInformationServeur) ois.readObject();
@@ -66,7 +68,7 @@ class FTPCommunication {
        
         try {
             oos.writeObject(bean_telechargement);
-            
+            oos.flush();
             while(bean_rcpt == null) {
                 bean_rcpt = (BeanTelechargement) ois.readObject();
             }
@@ -84,7 +86,7 @@ class FTPCommunication {
        
         try {
             oos.writeObject(bean_televersement);
-            
+            oos.flush();
             while(bean_rcpt == null) {
                 bean_rcpt = (BeanTeleversement) ois.readObject();
             }
@@ -95,5 +97,20 @@ class FTPCommunication {
         }
         
         return bean_rcpt;
+    }
+    
+    public static void transfert(InputStream in, OutputStream out, boolean closeOnExit) throws IOException
+    {
+        byte buf[] = new byte[1024];
+        
+        int n;
+        while((n=in.read(buf))!=-1)
+            out.write(buf,0,n);
+            out.flush();
+        if (closeOnExit)
+        {
+            in.close();
+            out.close();
+        }
     }
 }

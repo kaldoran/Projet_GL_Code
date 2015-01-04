@@ -11,6 +11,7 @@ import beans.BeanTelechargement;
 import beans.BeanTeleversement;
 import client.MVC.modele.impl.Authentification;
 import client.utils.ClientConstantes;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -72,8 +73,10 @@ public class Communication {
         FTP_com.lancerTelechargement(adresse_fichier_serveur, adresse_repertoire_client, bean_telechargement.getPort_telechargement());
     }
 
-    public void procederTeleversement(String adresse_fichier_client, String adresse_repertoire_serveur) {
-        BeanTeleversement bean_televersement = FTP_com.demanderTeleversement(oos, ois, new BeanTeleversement(adresse_repertoire_serveur));
+    public void procederTeleversement(String adresse_repertoire_serveur, String adresse_fichier_client) {
+        String[] decoupage = adresse_fichier_client.split(File.separator);
+        String nom_fichier = decoupage[decoupage.length-1]; System.out.println(nom_fichier);
+        BeanTeleversement bean_televersement = FTP_com.demanderTeleversement(oos, ois, new BeanTeleversement(adresse_repertoire_serveur, nom_fichier));
         
         FTP_com.lancerTeleversement(adresse_fichier_client, adresse_repertoire_serveur, bean_televersement.getPort_televersement());
     }

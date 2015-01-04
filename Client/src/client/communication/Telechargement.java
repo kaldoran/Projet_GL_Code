@@ -7,6 +7,7 @@ package client.communication;
 
 import client.utils.ClientConstantes;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +25,7 @@ public class Telechargement implements Runnable {
     private String file;
     
     private String adresse_fichier_serveur;
+    private String nom_fichier;
     private String adresse_repertoire_client;
     private int port_telechargement;
     
@@ -55,34 +57,13 @@ public class Telechargement implements Runnable {
         }
         
         try {
-            int filesize = 6022386;
-            int bytesRead;
-            int current = 0;
-            byte[] mybytearray = new byte[filesize];
-            InputStream is = null;
-            BufferedOutputStream bos = null;
-            FileOutputStream fos;
-
-            fos = new FileOutputStream(adresse_repertoire_client+"/file1");
-            bos = new BufferedOutputStream(fos);
-            bytesRead = in.read(mybytearray, 0, mybytearray.length);
-            current = bytesRead;
-            
-            do {    System.out.print(".");
-                bytesRead = in.read(mybytearray, current,
-                        (mybytearray.length - current));
-                if (bytesRead >= 0) {
-                    current += bytesRead;
-                }
-            } while (bytesRead > -1);
-
-            bos.write(mybytearray, 0, current);
-            bos.flush();
-            bos.close();
-            fos.close();
-            
-            in.close();
+            FTPCommunication.transfert(
+                s.getInputStream(),
+                new FileOutputStream(adresse_repertoire_client + nom_fichier),
+                true);
+        
             s.close();
+            
         } catch (IOException ex) {
             Logger.getLogger(Telechargement.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -92,6 +73,9 @@ public class Telechargement implements Runnable {
         this.adresse_fichier_serveur = adresse_fichier_serveur;
         this.adresse_repertoire_client = adresse_repertoire_client;
         this.port_telechargement = port_telechargement;
+        String[] decoupage = adresse_fichier_serveur.split(File.separator);
+        this.nom_fichier = File.separator + decoupage[decoupage.length-1];
+        //System.out.println("nom fichier : " + adresse_fichier_serveur + " " + File.separator + " " + decoupage.length + " " + nom_fichier);
         
         t = new Thread(this);
         t.start();
