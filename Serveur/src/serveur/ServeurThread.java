@@ -12,9 +12,11 @@ import beans.BeanTeleversement;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -137,7 +139,7 @@ public class ServeurThread implements Runnable {
                     while (O == null && !(O instanceof BeanInformationServeur)) {
                         try {
                             O = in.readObject();
-
+                            
                         } catch (IOException ex) {
                             Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (ClassNotFoundException ex) {
@@ -151,6 +153,7 @@ public class ServeurThread implements Runnable {
                     bean_informationServeur.setHashmap_serveur(gestionnaire_fichier.getHashMap_repertoires_client());
                     try {
                         out.writeObject(bean_informationServeur);
+                        out.flush();
                     } catch (IOException ex) {
                         Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -211,10 +214,11 @@ public class ServeurThread implements Runnable {
                     break;
 
                 case TELECHARGEMENT :
-                    Telechargement tlgt = new Telechargement(bean_televersement.getAdresse_repertoire(), min_plage_numero_port);
+                    Telechargement tlgt = new Telechargement(bean_televersement.getAdresse_repertoire(), bean_televersement.getNom_fichier(), min_plage_numero_port);
                     tlgt.demarrer();
                     try {
                             out.writeObject(bean_televersement);
+                            out.flush();
                         } catch (IOException ex) {
                             Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -227,6 +231,7 @@ public class ServeurThread implements Runnable {
                     tlvt.demarrer();
                     try {
                             out.writeObject(bean_telechargement);
+                            out.flush();
                         } catch (IOException ex) {
                             Logger.getLogger(ServeurThread.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -314,5 +319,7 @@ public class ServeurThread implements Runnable {
             }
         }*/
     }
+    
+    
 
 }

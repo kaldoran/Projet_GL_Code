@@ -14,6 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import serveur.communication.FTPCommunication;
 import serveur.utils.ServeurConstantes;
 
 /**
@@ -46,23 +47,14 @@ public class Televersement implements Runnable {
         }
         
         try {
-            OutputStream out;
-            out = s.getOutputStream();
-
-            FileInputStream fis = null;
-            f = new File(adresse_fichier);
-            byte[] mybytearray = new byte[(int) f.length() + 1];
-            fis = new FileInputStream(f);
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            bis.read(mybytearray, 0, mybytearray.length);
-
-            out.write(mybytearray, 0, mybytearray.length);
-            out.flush();
             
-            out.close();
+            FTPCommunication.transfert(
+                new FileInputStream(adresse_fichier),
+                s.getOutputStream(),
+                true);
+        
             s.close();
             ss.close();
-
         } catch (IOException ex) {
             Logger.getLogger(Televersement.class.getName()).log(Level.SEVERE, null, ex);
         }

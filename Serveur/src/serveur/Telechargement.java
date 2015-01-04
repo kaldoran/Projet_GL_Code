@@ -9,12 +9,11 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import serveur.utils.ServeurConstantes;
+import serveur.communication.FTPCommunication;
 
 /**
  *
@@ -22,6 +21,7 @@ import serveur.utils.ServeurConstantes;
  */
 public class Telechargement implements Runnable{
     private String adresse_repertoire;
+    private String nom_fichier;
     private int numero_port;
     
     private ServerSocket ss;
@@ -29,7 +29,8 @@ public class Telechargement implements Runnable{
     public static Thread t;
     private File f;
     
-    public Telechargement(String adresse_repertoire, int numero_port) {
+    public Telechargement(String adresse_repertoire, String nom_fichier, int numero_port) {
+        this.nom_fichier = File.separator+nom_fichier;
         this.adresse_repertoire = adresse_repertoire;
         this.numero_port = numero_port;
     }
@@ -44,33 +45,13 @@ public class Telechargement implements Runnable{
             this.numero_port++;
         }
         try {
-            InputStream in = s.getInputStream();
-            
-            int filesize = 6022386;
-            int bytesRead;
-            int current = 0;
-            byte[] mybytearray = new byte[filesize];
-            
-            FileOutputStream fos = new FileOutputStream(adresse_repertoire + "/file1");
-            BufferedOutputStream bos = new BufferedOutputStream(fos);
-            bytesRead = in.read(mybytearray, 0, mybytearray.length);
-            current = bytesRead;
-            
-            do {
-                    bytesRead = in.read(mybytearray, current,
-                            (mybytearray.length - current));
-                    if (bytesRead >= 0)
-                        current += bytesRead;
-            } while (bytesRead > -1);
-            
-            bos.write(mybytearray, 0, current);
-            bos.flush();
-            bos.close();
-            fos.close();
-            in.close();
+            FTPCommunication.transfert(
+                s.getInputStream(),
+                new FileOutputStream(adresse_repertoire + nom_fichier),
+                true);
+        
             s.close();
             ss.close();
-            
         } catch (IOException ex) {
             Logger.getLogger(Telechargement.class.getName()).log(Level.SEVERE, null, ex);
         }

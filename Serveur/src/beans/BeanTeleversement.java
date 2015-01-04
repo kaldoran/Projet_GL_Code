@@ -12,11 +12,22 @@ import java.io.Serializable;
  * @author kevin
  */
 public class BeanTeleversement implements Serializable{
+    
+    private String nom_fichier;
     private String adresse_repertoire;
     private int port_televersement;
     
-    public BeanTeleversement(String adresse_repertoire) {
+    public BeanTeleversement(String adresse_repertoire, String nom_fichier) {
+        this.nom_fichier = nom_fichier;
         this.adresse_repertoire = adresse_repertoire;
+    }
+
+    public String getNom_fichier() {
+        return nom_fichier;
+    }
+
+    public void setNom_fichier(String nom_fichier) {
+        this.nom_fichier = nom_fichier;
     }
 
     public String getAdresse_repertoire() {
