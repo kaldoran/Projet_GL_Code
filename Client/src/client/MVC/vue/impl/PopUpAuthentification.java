@@ -79,7 +79,7 @@ public class PopUpAuthentification extends JDialog implements ActionListener, Ob
         
 	add(boite) ;
 	pack();
-	setLocation(400, 200);
+	setLocation(620, 400);
 	setVisible(true);
     }
     
