@@ -7,16 +7,23 @@ package client.MVC.model;
 
 import client.MVC.vu.ObservateurAuthentification;
 import beans.BeanAuthentification;
+import client.communication.Communication;
 
 /**
  *
  * @author kevin
  */
 public interface InterfaceModeleAuthentification {
+   
+    void genererMessageErreur(int i);
     
     void creerAuthentification (String login, String mot_de_passe);
     
     void authentifier ();
+    
+    boolean estAuthentifie();
+    
+    Communication getCommunication();
     
     void enregistrerObservateur (ObservateurAuthentification o);
     

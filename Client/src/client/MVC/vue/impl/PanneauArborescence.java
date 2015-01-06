@@ -6,15 +6,20 @@
 package client.MVC.vue.impl;
 
 import client.MVC.controleur.InterfaceControleurGestionnaireFichiers;
+import client.MVC.controleur.InterfaceControleurTelechargementTeleversement;
 import client.MVC.model.InterfaceModeleGestionnaireFichiers;
 import client.MVC.vu.ObservateurGestionnaireFichiers;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.plaf.FontUIResource;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.MutableTreeNode;
@@ -23,7 +28,7 @@ import javax.swing.tree.MutableTreeNode;
  *
  * @author kevin
  */
-public class PanneauArborescence extends JPanel implements ObservateurGestionnaireFichiers {
+public class PanneauArborescence extends JPanel implements ObservateurGestionnaireFichiers, TreeSelectionListener {
     private InterfaceControleurGestionnaireFichiers controleur;
     private InterfaceModeleGestionnaireFichiers modele;
     
@@ -32,16 +37,19 @@ public class PanneauArborescence extends JPanel implements ObservateurGestionnai
     private JLabel lbl_adresse;
     private JPanel panneau_label_tit;
     private JPanel panneau_label_adr;
+    private JScrollPane scroll;
     
     private DefaultMutableTreeNode racine;
-        
-    public PanneauArborescence(InterfaceControleurGestionnaireFichiers controleur, InterfaceModeleGestionnaireFichiers modele) {
+    private final boolean ARBORESCENCE_SERVEUR;
+    
+    public PanneauArborescence(InterfaceControleurGestionnaireFichiers controleur, InterfaceModeleGestionnaireFichiers modele, boolean estArboServeur) {
         super();
         setLayout(new BorderLayout());
         
         this.controleur = controleur;
         this.modele = modele;
         this.modele.enregistrerObservateur(this);
+        this.ARBORESCENCE_SERVEUR = estArboServeur;
         
         DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
         
@@ -57,21 +65,24 @@ public class PanneauArborescence extends JPanel implements ObservateurGestionnai
         this.add(panneau_label_adr,BorderLayout.SOUTH);
         
         lbl_adresse = new JLabel();
+        lbl_adresse.setPreferredSize(new Dimension(400, 20));
+        lbl_adresse.setFont(new Font("Arial", Font.PLAIN, 9));
         panneau_label_adr.add(lbl_adresse);
         
         String[] rep = {"rep1","rep2", "rep3"};
         racine = new DefaultMutableTreeNode();
         arborescence_fichiers = new JTree(racine);
-        arborescence_fichiers.setPreferredSize(new Dimension(400, 600));
+        arborescence_fichiers.addTreeSelectionListener(this);
+        //arborescence_fichiers.setPreferredSize(new Dimension(400, 600));
         //arborescence_fichiers.setCellRenderer(renderer);
         
-        JScrollPane scroll = new JScrollPane(arborescence_fichiers);
+        scroll = new JScrollPane(arborescence_fichiers);
         scroll.setPreferredSize(new Dimension(400, 600));
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         this.add(scroll,BorderLayout.CENTER);
     }
-    
+
     
     public void setTitre(String titre) {
         lbl_titre.setText(titre);
@@ -86,4 +97,23 @@ public class PanneauArborescence extends JPanel implements ObservateurGestionnai
         this.racine.add((MutableTreeNode) racine);
         this.arborescence_fichiers.updateUI();
     }
+    
+    @Override
+    public boolean isArboServeur() {
+        return ARBORESCENCE_SERVEUR;
+    }
+
+    @Override
+    public void setAdresseFichier(String adresse_fichier) {
+        lbl_adresse.setText(adresse_fichier);
+    }
+
+    @Override
+    public void valueChanged(TreeSelectionEvent tse) {
+        JTree tree = (JTree) tse.getSource();
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+        String selectedNodeName = selectedNode.toString();System.out.println("selectdeNodeName : " + selectedNodeName);
+        controleur.traiterSelectionFichier(selectedNodeName, ARBORESCENCE_SERVEUR, selectedNode.isLeaf());
+    }
+    
 }

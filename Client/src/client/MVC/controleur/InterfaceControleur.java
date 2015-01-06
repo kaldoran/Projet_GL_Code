@@ -9,7 +9,6 @@ package client.MVC.controleur;
  *
  * @author kevin
  */
-public interface InterfaceControleurGestionnaireFichiers {
-
-    public void traiterSelectionFichier(String nom_fichier, boolean ARBORESCENCE_SERVEUR, boolean estUnFichier);
+public interface InterfaceControleur extends InterfaceControleurAuthentification, InterfaceControleurGestionnaireFichiers, InterfaceControleurTelechargementTeleversement {
+    
 }

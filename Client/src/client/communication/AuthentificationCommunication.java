@@ -23,22 +23,17 @@ class AuthentificationCommunication {
     private ObjectOutputStream oos = null;
     private ObjectInputStream ois = null;
     
-    public AuthentificationCommunication(Socket socket) {
-        try {
-            oos = new ObjectOutputStream(socket.getOutputStream());
-            ois = new ObjectInputStream(socket.getInputStream());
-        } catch (IOException ex) {
-            Logger.getLogger(AuthentificationCommunication.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+    public AuthentificationCommunication() {
+    
     }
     
-    public boolean authentifier(BeanAuthentification beanAuth) {
+    boolean authentifier(ObjectOutputStream oos, ObjectInputStream ois, BeanAuthentification beanAuth) {
         BeanAuthentification bean_rcpt = null;
         
         /** envoie du bean authentification */
         try {
             oos.writeObject(beanAuth);
+            oos.flush();
         } catch (IOException ex) {
             Logger.getLogger(AuthentificationCommunication.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -53,9 +48,15 @@ class AuthentificationCommunication {
                 Logger.getLogger(AuthentificationCommunication.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        /*try {
+            oos.close();
+            ois.close();
+        } catch (IOException ex) {
+            Logger.getLogger(AuthentificationCommunication.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
         
         /** retourner la validation de l'authentifcation */
         return bean_rcpt.isValide();
     }
-    
+
 }

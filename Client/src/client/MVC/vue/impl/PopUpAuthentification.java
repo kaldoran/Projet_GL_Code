@@ -43,6 +43,7 @@ public class PopUpAuthentification extends JDialog implements ActionListener, Ob
         
         JPanel panneau ;
         lbl_message = new JLabel();
+        lbl_message.setFont(new Font("Arial", Font.PLAIN, 9));
         lbl_message.setVisible(false);
 	
 	Box boite = Box.createVerticalBox();
@@ -78,9 +79,8 @@ public class PopUpAuthentification extends JDialog implements ActionListener, Ob
         
 	add(boite) ;
 	pack();
-	setLocation(400, 200);
+	setLocation(620, 400);
 	setVisible(true);
-        
     }
     
     
@@ -97,6 +97,7 @@ public class PopUpAuthentification extends JDialog implements ActionListener, Ob
             controleur.setBeanAuthentification(chTxt_login.getText(), String.copyValueOf(chPwd_mot_passe.getPassword()));
         } else if(e.getSource() == btn_annuler) {
             fermer();
+            //controleur.fermerApplication();
         } 
     }
 
@@ -116,10 +117,10 @@ public class PopUpAuthentification extends JDialog implements ActionListener, Ob
         System.out.println("HELLO");
         lbl_message.setForeground(Color.RED);
         switch (i) {
-            case 0 : lbl_message.setText("Erreur d'authentification : identifiants invalides.");
-            case 1 : lbl_message.setText("Erreur d'authentification : identifiants vides.");
-            case 2 : lbl_message.setText("Erreur d'authentification : taille pseudo incorrect.");
-            case 3 : lbl_message.setText("Erreur d'authentification : taille mot de passe incorrect.");
+            case 0 : lbl_message.setText("Erreur d'authentification : identifiants invalides.");break;
+            case 1 : lbl_message.setText("Erreur d'authentification : identifiants vides.");break;
+            case 2 : lbl_message.setText("Erreur d'authentification : taille pseudo incorrect.");break;
+            case 3 : lbl_message.setText("Erreur d'authentification : taille mot de passe incorrect.");break;
             default: lbl_message.setText("");
         }
         lbl_message.setVisible(true);

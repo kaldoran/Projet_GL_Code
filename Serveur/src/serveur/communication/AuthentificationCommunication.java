@@ -9,7 +9,6 @@ import beans.BeanAuthentification;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,8 +60,8 @@ class AuthentificationCommunication {
                 oos.writeObject(beanAuth);
             }
             
-            oos.close();
-            ois.close();
+            //oos.close();
+            //ois.close();
         } catch (IOException ex) {
                     Logger.getLogger(AuthentificationCommunication.class.getName()).log(Level.SEVERE, null, ex);
                 }

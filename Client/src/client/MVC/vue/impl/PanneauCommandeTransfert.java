@@ -5,6 +5,9 @@
  */
 package client.MVC.vue.impl;
 
+import client.MVC.controleur.InterfaceControleurTelechargementTeleversement;
+import client.MVC.model.InterfaceModeleTelechargementTeleversement;
+import client.MVC.vu.ObservateurTelechargementTeleversement;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,13 +24,20 @@ import javax.swing.JPanel;
  *
  * @author kevin
  */
-public class PanneauCommandeTransfert extends JPanel implements ActionListener{
+public class PanneauCommandeTransfert extends JPanel implements ObservateurTelechargementTeleversement, ActionListener{
+    private InterfaceControleurTelechargementTeleversement controleur;
+    private InterfaceModeleTelechargementTeleversement modele;
+            
     private JButton btn_televerser;
     private JButton btn_telecharger;
 
-    public PanneauCommandeTransfert() {
+    public PanneauCommandeTransfert(InterfaceControleurTelechargementTeleversement controleur, InterfaceModeleTelechargementTeleversement modele) {
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        
+       this.controleur = controleur;
+       this.modele = modele;
+       modele.enregistrerObservateur(this);
         
         Box boite_panneau = Box.createVerticalBox();
         boite_panneau.add(new JPanel());
@@ -37,15 +47,15 @@ public class PanneauCommandeTransfert extends JPanel implements ActionListener{
         Dimension dim_btn = new Dimension(150, 30);
         
         Box boite = Box.createVerticalBox();
-        btn_telecharger = new JButton(new ImageIcon("Packages ressources/arrow_left.png"));
-        btn_telecharger.setBackground(Color.WHITE);
-        btn_telecharger.addActionListener(this);
-        boite.add(btn_telecharger);
-        
-        btn_televerser = new JButton(new ImageIcon("Packages ressources/arrow_right.png"));
+        btn_televerser = new JButton(new ImageIcon("Packages ressources/arrow_left.png"));
         btn_televerser.setBackground(Color.WHITE);
         btn_televerser.addActionListener(this);
         boite.add(btn_televerser);
+        
+        btn_telecharger = new JButton(new ImageIcon("Packages ressources/arrow_right.png"));
+        btn_telecharger.setBackground(Color.WHITE);
+        btn_telecharger.addActionListener(this);
+        boite.add(btn_telecharger);
         
         panneau_bouton.add(boite,BorderLayout.CENTER);
         
@@ -55,12 +65,34 @@ public class PanneauCommandeTransfert extends JPanel implements ActionListener{
         
         this.add(boite_panneau);
     }
+    
+    @Override
+    public void initialiserBoutons() {
+        btn_televerser.setEnabled(false);
+        btn_telecharger.setEnabled(false);
+    }
+            
+    @Override
+    public void activerBoutonTeleverser() {
+        btn_televerser.setEnabled(true);
+        btn_telecharger.setEnabled(false);
+    }
 
     @Override
-    public void actionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void activerBoutonTelecharger() {
+        btn_televerser.setEnabled(false);
+        btn_telecharger.setEnabled(true);
     }
     
-    
-    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == btn_telecharger) {
+            System.out.println("bouton telecharger");
+            controleur.initialiserTelechargement();
+        } else if(e.getSource() == btn_televerser) {
+            
+            controleur.initialiserTeleversement();
+        } 
+    }
+
 }

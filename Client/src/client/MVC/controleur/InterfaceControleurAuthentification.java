@@ -13,4 +13,6 @@ public interface InterfaceControleurAuthentification {
     
     void setBeanAuthentification(String login, String mot_de_passe);
     
+    void fermerApplication();
+    
 }

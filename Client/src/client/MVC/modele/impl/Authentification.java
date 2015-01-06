@@ -27,20 +27,25 @@ import java.util.logging.Logger;
  *
  * @author kevin
  */
-public class Client implements InterfaceModeleAuthentification{
+public class Authentification implements InterfaceModeleAuthentification {
     /**Attributs MVC*/
-    private Object observateur;
+    private ObservateurAuthentification observateur;
     /**Attributs autre*/
     private Communication communication;
     private BeanAuthentification beanAuthentification;
     
     private boolean authentificationValide = false;
     
-    public Client(){
+    public Authentification(){
         communication = new Communication();
     }
 
   
+    
+    @Override
+    public Communication getCommunication() {
+        return communication;
+    }
 
     @Override
     public void authentifier() {
@@ -61,12 +66,12 @@ public class Client implements InterfaceModeleAuthentification{
 
     @Override
     public void notifierObservateur() {
-        ObservateurAuthentification obsAuth = (ObservateurAuthentification)observateur;
+        
         if(authentificationValide) {
-            obsAuth.fermer();
+            observateur.fermer();
         } else {
-            obsAuth.informerMessageErreur(0);
-            obsAuth.actualiser("Erreur", "Erreur");
+            observateur.informerMessageErreur(0);
+            observateur.actualiser("Erreur", "Erreur");
         }
         
     }
@@ -76,5 +81,14 @@ public class Client implements InterfaceModeleAuthentification{
         beanAuthentification = new BeanAuthentification(login, mot_de_passe);
     }
 
+    @Override
+    public void genererMessageErreur(int i) {
+        observateur.informerMessageErreur(i);
+    }
+
+    @Override
+    public boolean estAuthentifie() {
+        return authentificationValide;
+    }
    
 }
