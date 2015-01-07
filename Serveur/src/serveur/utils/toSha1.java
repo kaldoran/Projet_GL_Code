@@ -7,7 +7,7 @@ package serveur.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
+import static javax.xml.bind.DatatypeConverter.printHexBinary;
 /**
  *
  * @author kaldoran
@@ -21,6 +21,6 @@ public class toSha1 {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return new String(md.digest(convertme));
+        return printHexBinary(md.digest(convertme));
     }
 }
