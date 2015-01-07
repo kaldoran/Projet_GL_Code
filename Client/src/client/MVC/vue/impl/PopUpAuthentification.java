@@ -25,7 +25,7 @@ public class PopUpAuthentification extends JDialog implements ActionListener, Ob
     private InterfaceControleurAuthentification controleur;
     
     /** Attributs composants PopUpAuthentification */
-    private JButton btn_valider = new JButton("Valider");
+    private JButton btn_valider = new JButton("Se connecter");
     private JButton btn_annuler = new JButton("Annuler");
     private JTextField chTxt_serveur = new JTextField(10);
     private JTextField chTxt_login = new JTextField(10);
@@ -48,20 +48,20 @@ public class PopUpAuthentification extends JDialog implements ActionListener, Ob
 	
 	Box boite = Box.createVerticalBox();
         setModal(true);
-        setTitle("Authentification KouldNotShare");
+        setTitle("Authentification");
         
         panneau = new JPanel();
-        panneau.add(new JLabel("Entrez le nom du serveur :   "));
+        panneau.add(new JLabel("Serveur :          "));
         panneau.add(chTxt_serveur);
         boite.add(panneau);
         
         panneau = new JPanel();
-	panneau.add(new JLabel("Entrez votre pseudo :           "));
+	panneau.add(new JLabel("Nom d'utilisateur : "));
 	panneau.add(chTxt_login);
 	boite.add(panneau);
 	
 	panneau = new JPanel();
-	panneau.add(new JLabel("Entrez votre mot de passe : "));
+	panneau.add(new JLabel("Mot de passe :      "));
         panneau.add(chPwd_mot_passe);
 	boite.add(panneau);
 	
@@ -117,10 +117,10 @@ public class PopUpAuthentification extends JDialog implements ActionListener, Ob
         System.out.println("HELLO");
         lbl_message.setForeground(Color.RED);
         switch (i) {
-            case 0 : lbl_message.setText("Erreur d'authentification : identifiants invalides.");break;
-            case 1 : lbl_message.setText("Erreur d'authentification : identifiants vides.");break;
-            case 2 : lbl_message.setText("Erreur d'authentification : taille pseudo incorrect.");break;
-            case 3 : lbl_message.setText("Erreur d'authentification : taille mot de passe incorrect.");break;
+            case 0 : lbl_message.setText("Erreur d'authentification : Identifiants invalides.");break;
+            case 1 : lbl_message.setText("Erreur d'authentification : Identifiants vides.");break;
+            case 2 : lbl_message.setText("Erreur d'authentification : L'utilisateur entré est invalide.");break;
+            case 3 : lbl_message.setText("Erreur d'authentification : Erreur de mot de passe.");break;
             default: lbl_message.setText("");
         }
         lbl_message.setVisible(true);

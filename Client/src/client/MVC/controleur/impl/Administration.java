@@ -54,7 +54,7 @@ public class Administration implements InterfaceControleur{
             modele_auth.genererMessageErreur(1);
         } else if(login.length() >= 20) {
             modele_auth.genererMessageErreur(2);
-        } else if( mot_de_passe.length() < 4) {
+        } else if( mot_de_passe.length() < 4 || mot_de_passe.length() > 50) {
             modele_auth.genererMessageErreur(3);
         } else {
             modele_auth.creerAuthentification(login, mot_de_passe);
