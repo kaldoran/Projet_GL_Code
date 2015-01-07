@@ -51,7 +51,7 @@ public class PopUpAuthentification extends JDialog implements ActionListener, Ob
         setTitle("Authentification");
         
         panneau = new JPanel();
-        panneau.add(new JLabel("Serveur :          "));
+        panneau.add(new JLabel("Serveur :                 "));
         panneau.add(chTxt_serveur);
         boite.add(panneau);
         
@@ -61,7 +61,7 @@ public class PopUpAuthentification extends JDialog implements ActionListener, Ob
 	boite.add(panneau);
 	
 	panneau = new JPanel();
-	panneau.add(new JLabel("Mot de passe :      "));
+	panneau.add(new JLabel("Mot de passe :        "));
         panneau.add(chPwd_mot_passe);
 	boite.add(panneau);
 	
