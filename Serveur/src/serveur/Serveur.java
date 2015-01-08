@@ -44,9 +44,8 @@ public class Serveur {
     }
     
     private static void printInfo(InetAddress Adresse) {
-        System.out.println("--------");
         System.out.println("Serveur - Team KNK");
-        System.out.println("Derniere version : 10/12/2014");
+        System.out.println("Derniere version : 08/01/2014");
         System.out.println("--------");
         System.out.println("Demarre sur le port : " + ServeurConstantes.PORT);
         System.out.println("L'adresse du serveur est : " + Adresse);
