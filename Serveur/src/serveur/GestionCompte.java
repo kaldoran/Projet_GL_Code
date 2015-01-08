@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -94,18 +95,15 @@ public class GestionCompte {
         String inputScanner = null;
         String hashpass = null;
         hashpass = toSha1.toSHA1(pass.getBytes());
+         
 
         Scanner scanner = null;
-        try {
-            scanner = new Scanner(new File(ServeurConstantes.FICHIER_COMPTE));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ServeurAuthentification.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        scanner = new Scanner(new Object(){}.getClass().getResourceAsStream(ServeurConstantes.FICHIER_COMPTE));
 
         while (scanner.hasNextLine()) {
             inputScanner = scanner.nextLine().trim();
             Matcher m = regex.matcher(inputScanner);
-            if ( m.matches() ) {
+            if (m.matches()) {
                 if (login.equalsIgnoreCase(m.group(1)) && hashpass.equalsIgnoreCase(m.group(2))) {
                     return true;
                 }

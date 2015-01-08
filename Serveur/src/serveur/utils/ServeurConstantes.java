@@ -5,6 +5,8 @@
  */
 package serveur.utils;
 
+import java.io.InputStream;
+
 /**
  *
  * @author kaldoran
@@ -16,10 +18,9 @@ public class ServeurConstantes {
     public final static Integer MAX_ESSAI = 3;
     
     
-    public final static String FICHIER_COMPTE = "acc";
+    public final static String FICHIER_COMPTE = "/Compte/cpt.acc";
     public final static String FICHIER = "/home";
-    
-    public final static String FICHIER_SORTIE_DDL = "/home/kaldoran/mailbis";
+  
     public final static String REPERTOIRE_PARTAGE = "/home/"+System.getProperties().getProperty("user.name")+"/Téléchargements";
 
 }
