@@ -6,7 +6,6 @@
 package client.MVC.vue.impl;
 
 import client.MVC.controleur.InterfaceControleurGestionnaireFichiers;
-import client.MVC.controleur.InterfaceControleurTelechargementTeleversement;
 import client.MVC.model.InterfaceModeleGestionnaireFichiers;
 import client.MVC.vu.ObservateurGestionnaireFichiers;
 import java.awt.BorderLayout;
@@ -19,7 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.plaf.FontUIResource;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.MutableTreeNode;

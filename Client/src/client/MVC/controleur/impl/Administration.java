@@ -9,7 +9,6 @@ import client.MVC.model.InterfaceModeleAuthentification;
 import client.MVC.model.InterfaceModeleGestionnaireFichiers;
 import client.MVC.model.InterfaceModeleTelechargementTeleversement;
 import client.MVC.vue.impl.FenetrePrincipale;
-import client.utils.MessagesErreur;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

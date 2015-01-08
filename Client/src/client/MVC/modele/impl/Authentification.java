@@ -6,22 +6,9 @@
 package client.MVC.modele.impl;
 
 import beans.BeanAuthentification;
-import client.MVC.controleur.InterfaceControleurAuthentification;
 import client.MVC.model.InterfaceModeleAuthentification;
 import client.MVC.vu.ObservateurAuthentification;
-import static client.MVC.modele.impl.MainClient.socket;
 import client.communication.Communication;
-import client.MVC.vue.impl.FenetrePrincipale;
-import client.MVC.vue.impl.PopUpAuthentification;
-import client.utils.ClientConstantes;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

@@ -14,9 +14,6 @@ import client.MVC.model.InterfaceModeleTelechargementTeleversement;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
 
 
 /**

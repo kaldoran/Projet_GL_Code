@@ -5,7 +5,6 @@ import client.MVC.controleur.InterfaceControleurTelechargementTeleversement;
 import client.MVC.model.InterfaceModeleGestionnaireFichiers;
 import client.MVC.model.InterfaceModeleTelechargementTeleversement;
 import java.awt.BorderLayout;
-import java.nio.file.Files;
 import javax.swing.JPanel;
 
 /*

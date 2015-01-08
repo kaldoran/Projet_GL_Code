@@ -6,7 +6,6 @@
 package client.MVC.vu;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeModel;
 
 /**
  *

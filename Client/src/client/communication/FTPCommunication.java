@@ -5,7 +5,6 @@
  */
 package client.communication;
 
-import beans.BeanAuthentification;
 import beans.BeanInformationServeur;
 import beans.BeanTelechargement;
 import beans.BeanTeleversement;
@@ -14,7 +13,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

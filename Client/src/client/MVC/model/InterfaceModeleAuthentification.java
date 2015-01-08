@@ -6,7 +6,6 @@
 package client.MVC.model;
 
 import client.MVC.vu.ObservateurAuthentification;
-import beans.BeanAuthentification;
 import client.communication.Communication;
 
 /**
