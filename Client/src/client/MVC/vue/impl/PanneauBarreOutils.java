@@ -34,17 +34,17 @@ public class PanneauBarreOutils extends JPanel implements MouseListener{
         this.setPreferredSize(new Dimension(1000, 44));
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-        
-        btn_configuration = new JButton(new ImageIcon("Packages ressources/configure.png"));
+
+        btn_configuration = new JButton(new ImageIcon(getClass().getResource("/Ressources/configure.png")));
         btn_configuration.setBackground(Color.WHITE);
         btn_configuration.addMouseListener(this);
         this.add(btn_configuration);
         
-        btn_limitation = new JButton(new ImageIcon("Packages ressources/speed.png"));
+        btn_limitation = new JButton(new ImageIcon(getClass().getResource("/Ressources/speed.png")));
         btn_limitation.setBackground(Color.WHITE);
         this.add(btn_limitation);
         
-        btn_statistique = new JButton(new ImageIcon("Packages ressources/chart.png"));
+        btn_statistique = new JButton(new ImageIcon(getClass().getResource("/Ressources/chart.png")));
         btn_statistique.setBackground(Color.WHITE);
         this.add(btn_statistique);
         

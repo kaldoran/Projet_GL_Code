@@ -46,12 +46,12 @@ public class PanneauCommandeTransfert extends JPanel implements ObservateurTelec
         Dimension dim_btn = new Dimension(150, 30);
         
         Box boite = Box.createVerticalBox();
-        btn_televerser = new JButton(new ImageIcon("Packages ressources/arrow_left.png"));
+        btn_televerser = new JButton(new ImageIcon(getClass().getResource("/Ressources/arrow_left.png")));
         btn_televerser.setBackground(Color.WHITE);
         btn_televerser.addActionListener(this);
         boite.add(btn_televerser);
         
-        btn_telecharger = new JButton(new ImageIcon("Packages ressources/arrow_right.png"));
+        btn_telecharger = new JButton(new ImageIcon(getClass().getResource("/Ressources/arrow_right.png")));
         btn_telecharger.setBackground(Color.WHITE);
         btn_telecharger.addActionListener(this);
         boite.add(btn_telecharger);
