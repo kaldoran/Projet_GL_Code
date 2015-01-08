@@ -38,7 +38,6 @@ public class GestionnaireFichiers {
         // pour chaque lecteur
         for (int i = 1 ; i<tab_repertoires.length ; i++)
         {
-            System.out.println(i + " " + tab_repertoires[i].getName());
             hashmap_repertoires_client.put(tab_repertoires[i].getName(), tab_repertoires[i]);
                 // on recupère son contenu grace a getSubDirs
                 DefaultMutableTreeNode root = explorerRepertoire(tab_repertoires[i]);
@@ -71,7 +70,7 @@ public class GestionnaireFichiers {
                     hashmap_repertoires_client.put(list[j].getName(), list[j]);
                     DefaultMutableTreeNode file = null;
                     if (list[j].isDirectory())
-                    {	System.out.println("REPERTOIRE");
+                    {	
                         file = explorerRepertoire(list[j]);  
                         racine.add(file);
                     }else {
