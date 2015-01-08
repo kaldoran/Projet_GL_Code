@@ -30,7 +30,7 @@ public class FenetrePrincipale{
     }
 
     private void setBaseConf() {
-        cadre = new javax.swing.JFrame("KouldNotShare Client");
+        cadre = new javax.swing.JFrame("KouldNotShare Serveur");
         
         barre_menu = new BarreMenu();
                 

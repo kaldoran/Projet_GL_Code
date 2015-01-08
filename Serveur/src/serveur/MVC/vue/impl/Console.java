@@ -6,10 +6,14 @@
 package serveur.MVC.vue.impl;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Insets;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -24,9 +28,13 @@ public class Console extends JPanel {
     public Console() {
         super();
         setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(500, 500));
+        setPreferredSize(new Dimension(900, 500));
+        setBackground(Color.GRAY);
         
         console = new JTextArea();
+        console.setBackground(Color.LIGHT_GRAY);
+        console.setMargin(new Insets(10, 10, 10, 10));
+        console.setFont(new Font("Arial", Font.PLAIN, 12));
         console.setEditable(false);
         
         OutputStream text_console;

@@ -78,7 +78,7 @@ public class FenetrePrincipale{
         
         cadre.setJMenuBar(barre_menu);
         cadre.setContentPane(panneau_principal);
-        cadre.setLocation(300, 200);
+        cadre.setLocation(200, 100);
         cadre.pack();
         cadre.setVisible(true);
         cadre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
